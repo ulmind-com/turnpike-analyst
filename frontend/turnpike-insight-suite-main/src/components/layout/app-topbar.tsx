@@ -1,0 +1,175 @@
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Bell, LogOut, Menu, Moon, Search, Sun, User as UserIcon, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ROUTE_TITLES } from "@/constants/navigation";
+import { useLogout, useSession } from "@/hooks/use-auth";
+import { useLeads } from "@/hooks/use-api";
+import { titleCase, relativeTime } from "@/utils/format";
+
+export function AppTopbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { user } = useSession();
+  const logout = useLogout();
+  const [dark, setDark] = useState(false);
+
+  // Notifications are derived from real, freshly-created leads — the API has
+  // no dedicated notifications endpoint.
+  const { data: recentLeads } = useLeads({ skip: 0, limit: 5, status: "PENDING" });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  const title = ROUTE_TITLES[pathname] ?? titleCase(pathname.split("/").filter(Boolean).at(-1) ?? "");
+  const initials = (user?.full_name ?? "")
+    .split(" ")
+    .map((part) => part[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  return (
+    <header className="sticky top-0 z-30 flex items-center gap-3 rounded-2xl glass-panel px-3 py-2.5">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="lg:hidden"
+        onClick={onOpenMobileNav}
+        aria-label="Open navigation"
+      >
+        <Menu className="size-5" />
+      </Button>
+
+      <div className="min-w-0">
+        <nav aria-label="Breadcrumb" className="text-[11px] text-muted-foreground">
+          <Link to="/dashboard" className="hover:text-foreground">
+            Console
+          </Link>
+          <span className="mx-1.5">/</span>
+          <span className="text-foreground">{title}</span>
+        </nav>
+        <p className="truncate text-sm font-semibold">{title}</p>
+      </div>
+
+      <div className="ml-auto flex items-center gap-1.5">
+        <div className="relative hidden md:block">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="search"
+            placeholder="Search console…"
+            aria-label="Search console"
+            className="h-9 w-56 rounded-xl border border-border/60 bg-background/60 pl-9 pr-3 text-sm outline-none backdrop-blur transition-all placeholder:text-muted-foreground focus:w-72 focus:ring-2 focus:ring-ring/40"
+          />
+        </div>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label="Quick actions">
+              <Zap className="size-4.5" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-56 p-1.5">
+            <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Quick actions</p>
+            <Link to="/services" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
+              New service
+            </Link>
+            <Link to="/blogs" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
+              Publish article
+            </Link>
+            <Link to="/leads" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
+              Triage leads
+            </Link>
+          </PopoverContent>
+        </Popover>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
+              <Bell className="size-4.5" />
+              {!!recentLeads?.length && (
+                <span className="absolute right-1.5 top-1.5 size-2 rounded-full gradient-brand" />
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-80 p-2">
+            <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+              Pending leads awaiting reply
+            </p>
+            {recentLeads?.length ? (
+              recentLeads.map((lead) => (
+                <Link
+                  key={lead._id}
+                  to="/leads"
+                  className="block rounded-lg px-2 py-2 text-sm hover:bg-accent"
+                >
+                  <span className="font-medium">{lead.full_name}</span>
+                  <span className="block truncate text-xs text-muted-foreground">
+                    {lead.subject} · {relativeTime(lead.created_at)}
+                  </span>
+                </Link>
+              ))
+            ) : (
+              <p className="px-2 py-4 text-center text-sm text-muted-foreground">All caught up</p>
+            )}
+          </PopoverContent>
+        </Popover>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setDark((value) => !value)}
+          aria-label="Toggle theme"
+        >
+          {dark ? <Sun className="size-4.5" /> : <Moon className="size-4.5" />}
+        </Button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/60 py-1 pl-1 pr-2.5 backdrop-blur transition-colors hover:bg-accent"
+              aria-label="Account menu"
+            >
+              <span className="grid size-7 place-items-center rounded-lg gradient-brand text-[11px] font-semibold text-primary-foreground">
+                {initials || <UserIcon className="size-3.5" />}
+              </span>
+              <span className="hidden text-left sm:block">
+                <span className="block max-w-28 truncate text-xs font-medium leading-tight">
+                  {user?.full_name ?? "Account"}
+                </span>
+                <span className="block text-[10px] leading-tight text-muted-foreground">
+                  {titleCase(user?.role)}
+                </span>
+              </span>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel className="truncate">{user?.email}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link to="/profile">Profile</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/settings">Settings</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={logout} className="text-destructive">
+              <LogOut className="size-4" /> Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </header>
+  );
+}
