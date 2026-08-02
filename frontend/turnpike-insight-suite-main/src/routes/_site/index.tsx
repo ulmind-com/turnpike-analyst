@@ -30,6 +30,7 @@ import { ConnectedStatBand, StatBand } from "@/components/site/stat-band";
 import { TestimonialCarousel } from "@/components/site/testimonial-carousel";
 import { WaveDivider } from "@/components/site/wave-divider";
 import { WhyChoose } from "@/components/site/why-choose";
+import { OnboardingBlogCards } from "@/components/site/onboarding-blog-cards";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,6 +39,7 @@ import {
   AWARDS,
   CAPABILITIES,
   COUNTERS,
+  DEPARTMENTS,
   FLAGSHIPS,
   HERO_CLAIMS,
   TECH_STACK,
@@ -89,6 +91,12 @@ function HomePage() {
     <>
       <HeroAJ />
 
+      <PlatformStats 
+        serviceCount={services.data?.length ?? 16} 
+        productCount={products.data?.length ?? 2} 
+        courseCount={courses.data?.length ?? 4} 
+      />
+
       <Section id="platforms" className="bg-card/10 py-16 lg:py-20">
         <SectionHeading
           eyebrow="Ecosystem"
@@ -118,6 +126,17 @@ function HomePage() {
 
       <WaveDivider variant="curve" />
 
+      <Section id="agent-p8" className="py-16 lg:py-24">
+        <DarkFeatureSpotlight
+          eyebrow={FLAGSHIPS[0].eyebrow}
+          title={FLAGSHIPS[0].title}
+          body={FLAGSHIPS[0].body}
+          bullets={FLAGSHIPS[0].bullets}
+        />
+      </Section>
+
+      <WaveDivider variant="curve" />
+
       <Section id="james-webb" className="py-16 lg:py-24">
         <DarkFeatureSpotlight
           eyebrow={FLAGSHIPS[1].eyebrow}
@@ -125,6 +144,19 @@ function HomePage() {
           body={FLAGSHIPS[1].body}
           bullets={FLAGSHIPS[1].bullets}
         />
+
+        <div className="mx-auto max-w-4xl mt-16 rounded-2xl bg-white/5 border border-white/10 p-8 flex flex-col md:flex-row items-center gap-8 backdrop-blur-md">
+          <div className="relative size-32 shrink-0 rounded-full overflow-hidden border-2 border-primary/30">
+            <img src="https://ui-avatars.com/api/?name=James+Webb&background=10b981&color=fff&size=256" alt="James Webb" className="object-cover w-full h-full" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-slate-800 mb-2">Hi, I'm James Webb</h3>
+            <p className="text-slate-600 leading-relaxed">
+              I am your human interface media to interact with TurnPikeAnalyst. With over 20 years of experience in enterprise content management and automation, I'm here to ensure your migration is seamless and your new platforms operate flawlessly.
+            </p>
+            <Button className="mt-4" onClick={scrollToContact}>Contact Me To Book Your Slot</Button>
+          </div>
+        </div>
       </Section>
 
 
@@ -136,6 +168,19 @@ function HomePage() {
       </Section>
 
 
+
+      <WaveDivider variant="peaks" />
+      
+      <Section id="awards" className="py-16">
+        <SectionHeading
+          eyebrow="Excellence"
+          title="Recent Awards & Certifications"
+          description="Recognised by industry leaders for our commitment to quality, security, and innovation."
+        />
+        <div className="mt-12">
+          <AwardsStrip items={AWARDS} />
+        </div>
+      </Section>
 
       <WaveDivider variant="peaks" />
 
@@ -151,37 +196,9 @@ function HomePage() {
 
       <WaveDivider variant="ribbon" />
 
-      <Section id="insights">
-        <SectionHeading
-          eyebrow="Insights"
-          title="Field notes from live engagements"
-          description="Editorial published through the Turnpike Analyst content pipeline."
-        />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {(blogs.data ?? []).slice(0, 6).map((post, index) => (
-            <Reveal key={post.slug} delay={index * 0.06}>
-              <PremiumCard
-                accent="cyan"
-                bookmarkable
-                icon={<BookOpen className="size-5" />}
-                title={post.title}
-                description={post.summary}
-                meta={[
-                  { label: "Author", value: post.author },
-                  { label: "Category", value: humanise(post.category) },
-                ]}
-                action={{ label: "Read article", to: "/blog/$slug", params: { slug: post.slug } }}
-              />
-            </Reveal>
-          ))}
-          {blogs.isLoading
-            ? Array.from({ length: 3 }).map((_, index) => <PremiumCardSkeleton key={index} />)
-            : null}
-          {!blogs.isLoading && (blogs.data?.length ?? 0) === 0 ? (
-            <p className="text-sm text-muted-foreground">Insights are publishing soon.</p>
-          ) : null}
-        </div>
-      </Section>
+      <section id="insights">
+        <OnboardingBlogCards blogs={blogs.data ?? []} loading={blogs.isLoading} />
+      </section>
 
     </>
   );

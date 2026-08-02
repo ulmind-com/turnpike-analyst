@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Server, Cloud, Database, Code, Cog, Blocks } from "lucide-react";
 
 export function TechStackExplorer({ stack }: { stack: { category: string; items: string[] }[] }) {
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const getIcon = (category: string) => {
     switch (category.toLowerCase()) {
@@ -18,106 +18,86 @@ export function TechStackExplorer({ stack }: { stack: { category: string; items:
   };
 
   return (
-    <div className="relative mt-16 mb-20 max-w-[1000px] mx-auto z-10 px-4 sm:px-6">
-      
-      {/* Decorative dots top-left */}
-      <div className="absolute -top-8 -left-2 grid grid-cols-4 gap-2 opacity-60 z-0 hidden lg:grid">
-        {Array.from({ length: 16 }).map((_, i) => (
-          <div key={i} className="size-2 rounded-full bg-brand-cyan" />
-        ))}
-      </div>
-
-
-
-      <div className="flex flex-col lg:flex-row gap-6 relative z-10 items-start">
-        
-        {/* Left Sidebar Menu */}
-        <div className="flex flex-col bg-white rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden w-full lg:w-[280px] shrink-0">
+    <div className="relative mt-16 mb-20 max-w-[1200px] mx-auto z-10 px-4 sm:px-6">
+      <div className="flex flex-col gap-3 lg:flex-row lg:h-[260px]">
+        {stack.map((cat, index) => {
+          const isHovered = hoveredIndex === index;
           
-          {/* Header of sidebar (like "Sections" in screenshot) */}
-          <div className="flex border-b border-slate-100">
-             <div className="flex-1 text-center py-4 text-xs font-bold uppercase tracking-wider text-slate-800 border-b-2 border-primary">
-               Ecosystem
-             </div>
-             <div className="flex-1 text-center py-4 text-xs font-bold uppercase tracking-wider text-slate-400">
-               Connectors
-             </div>
-          </div>
-          
-          <div className="flex flex-col py-2">
-            {stack.map((cat, i) => {
-              const isActive = activeIdx === i;
-              return (
-                <button
-                  key={cat.category}
-                  onClick={() => setActiveIdx(i)}
-                  className={cn(
-                    "flex items-center gap-4 px-6 py-4 text-sm font-semibold transition-all duration-300 border-l-4 border-b border-b-slate-50 last:border-b-0",
-                    isActive 
-                      ? "border-l-primary bg-primary/[0.03] text-primary" 
-                      : "border-l-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                  )}
-                >
-                  <span className={cn("transition-colors", isActive ? "text-primary" : "text-slate-400")}>
+          return (
+            <motion.button
+              key={cat.category}
+              type="button"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onFocus={() => setHoveredIndex(index)}
+              onBlur={() => setHoveredIndex(null)}
+              animate={{
+                flex: isHovered ? 3 : 1,
+              }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className={cn(
+                "group relative isolate flex min-h-[100px] lg:min-h-full w-full flex-col overflow-hidden rounded-[2rem] border text-left transition-all duration-500 lg:w-auto cursor-default",
+                isHovered 
+                  ? "border-transparent bg-[linear-gradient(135deg,var(--primary),var(--brand-cyan))] text-white shadow-2xl" 
+                  : "border-slate-200 bg-white text-slate-800 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.04)] hover:bg-slate-50"
+              )}
+            >
+              <div className={cn(
+                "flex h-full w-full p-5 lg:p-6",
+                isHovered ? "flex-col justify-center lg:justify-center lg:items-start" : "flex-row items-center justify-start lg:flex-col lg:justify-center lg:items-center gap-3"
+              )}>
+                
+                {/* Header (Icon + Title) */}
+                <div className={cn(
+                  "flex items-center gap-3 transition-all duration-500",
+                  isHovered ? "mb-4 lg:mb-6" : "lg:flex-col lg:gap-3 lg:text-center"
+                )}>
+                  <span className={cn(
+                    "grid shrink-0 place-items-center transition-all duration-500 rounded-xl",
+                    isHovered 
+                      ? "size-12 text-white bg-white/20 shadow-inner" 
+                      : "size-12 text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/20 group-hover:scale-105 group-hover:-translate-y-1"
+                  )}>
                     {getIcon(cat.category)}
                   </span>
-                  {cat.category}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Right Canvas / Mockup Area */}
-        <div className="flex-1 w-full bg-[linear-gradient(135deg,var(--primary),var(--brand-cyan))] rounded-[2rem] p-4 sm:p-6 shadow-2xl overflow-hidden min-h-[450px] relative border border-white/20">
-          
-          {/* Mockup Top Bar */}
-          <div className="absolute top-4 left-4 right-4 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center px-5 gap-3">
-             <div className="w-16 h-2.5 bg-white/40 rounded-full" />
-             <div className="w-8 h-2.5 bg-white/40 rounded-full" />
-             <div className="flex-1" />
-             <div className="w-24 h-2.5 bg-white/40 rounded-full hidden sm:block" />
-          </div>
-
-          <div className="mt-16 h-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIdx}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { 
-                    opacity: 1, 
-                    transition: { staggerChildren: 0.05, delayChildren: 0.05 } 
-                  },
-                  exit: { opacity: 0, transition: { duration: 0.15 } }
-                }}
-                className="grid grid-cols-2 sm:grid-cols-3 gap-4"
-              >
-                {stack[activeIdx]?.items.map((item) => (
-                  <motion.div
-                    key={item}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.85, y: 15 },
-                      visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25 } },
-                    }}
-                    className="flex flex-col items-center justify-center p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl aspect-square text-center transition-transform hover:-translate-y-1.5 hover:bg-white/20 duration-300 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] group"
-                  >
-                    <span className="grid size-12 place-items-center mb-3 bg-white/20 rounded-xl text-white group-hover:scale-110 transition-transform duration-300">
-                      {getIcon(stack[activeIdx].category)}
-                    </span>
-                    <span className="font-display font-medium text-white text-sm sm:text-sm leading-snug">
-                      {item}
-                    </span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
+                  
+                  <span className={cn(
+                    "font-bold leading-snug tracking-tight transition-all duration-300",
+                    isHovered ? "text-xl text-white whitespace-nowrap" : "text-sm text-slate-800 break-words text-center"
+                  )}>
+                    {cat.category}
+                  </span>
+                </div>
+                
+                {/* Expanded Content (Grid of Items) */}
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full overflow-hidden"
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 pt-2">
+                        {cat.items.map((item) => (
+                          <div 
+                            key={item} 
+                            className="flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-xs font-medium text-white shadow-sm hover:bg-white/20 transition-colors cursor-pointer"
+                          >
+                            <div className="size-1.5 shrink-0 rounded-full bg-[#00f2fe] shadow-[0_0_8px_rgba(0,242,254,0.8)]" />
+                            <span className="truncate leading-tight">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                
+              </div>
+            </motion.button>
+          );
+        })}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
+import { TurnpikeLogo } from "@/components/site/turnpike-logo";
 
 const LINKS = [
   { label: "Home", to: "/" },
@@ -41,15 +42,8 @@ export function SiteHeader({ revealOnScroll = false }: { revealOnScroll?: boolea
             : "shadow-[0_14px_40px_-32px_color-mix(in_oklab,var(--primary)_60%,transparent)]"
         }`}
       >
-        <Link to="/" className="group flex shrink-0 items-center gap-2 pl-1">
-          <motion.span
-            whileHover={{ rotate: 8, scale: 1.06 }}
-            transition={{ type: "spring", stiffness: 320, damping: 18 }}
-            className="grid size-9 place-items-center rounded-xl bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))] text-sm font-bold text-primary-foreground"
-          >
-            T
-          </motion.span>
-          <span className="text-sm font-semibold tracking-tight">Turnpike Analyst</span>
+        <Link to="/" className="group flex shrink-0 items-center pl-1">
+          <TurnpikeLogo dark={false} />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

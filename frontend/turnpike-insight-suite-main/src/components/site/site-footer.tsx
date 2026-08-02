@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "motion/react";
 import { CONTACT_PHONE } from "@/content/site-content";
+import { TurnpikeLogo } from "@/components/site/turnpike-logo";
 
 export function SiteFooter() {
   return (
@@ -13,11 +14,8 @@ export function SiteFooter() {
           
           {/* Brand Info */}
           <div>
-            <div className="flex items-center gap-2 mb-6">
-              <span className="grid size-8 place-items-center rounded-lg bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))] text-sm font-bold text-background">
-                T
-              </span>
-              <span className="text-xl font-bold tracking-tight text-white font-display uppercase">Turnpike Analyst</span>
+            <div className="mb-6">
+              <TurnpikeLogo dark={true} />
             </div>
             <p className="text-sm leading-relaxed mb-6 max-w-sm text-slate-400">
               We design, build, and scale enterprise digital products that move businesses forward. Turnpike Analyst partners with ambitious teams to drive meaningful digital transformation through scalable, high-impact technology.
@@ -98,35 +96,17 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Massive Outline Text Isometric Extrusion (SVG) */}
-        <div className="py-16 w-full overflow-hidden flex justify-center">
-          <svg viewBox="0 0 2400 300" className="w-full h-auto max-h-[300px] pointer-events-none">
-            {Array.from({ length: 30 }).map((_, i) => {
-              const isFace = i === 0 || i === 29;
-              const offset = 29 - i; // i=29 is the front layer (stays at 0,0), i=0 is the back layer (moves furthest)
-              return (
-                <motion.text 
-                  key={i}
-                  initial={{ x: 0, y: 0 }}
-                  whileInView={{ x: -offset * 1.5, y: -offset * 2.5 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                  x="50%"
-                  y="80%"
-                  textAnchor="middle" 
-                  fontSize="150" 
-                  fontWeight="900" 
-                  fontFamily="sans-serif" 
-                  fill="none" 
-                  stroke={isFace ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 0.15)"}
-                  strokeWidth={isFace ? "2" : "0.75"}
-                  letterSpacing="10" 
-                >
-                  TURNPIKE ANALYST
-                </motion.text>
-              );
-            })}
-          </svg>
+        {/* Massive Logo Footer Banner */}
+        <div className="py-24 w-full flex justify-center items-center px-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7 }}
+            className="flex items-center justify-center scale-150 sm:scale-[2] md:scale-[2.5] lg:scale-[3] transform-gpu my-16"
+          >
+            <TurnpikeLogo />
+          </motion.div>
         </div>
 
         {/* Very Bottom */}
