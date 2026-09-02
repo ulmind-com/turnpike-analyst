@@ -86,7 +86,7 @@ function UsersPage() {
                     </span>
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {new Date(user.created_at).toLocaleDateString()}
+                    {new Date(user.created_at as string).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -107,7 +107,7 @@ function UsersPage() {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
-                          onClick={() => setDeleteConfirmId(user._id)}
+                          onClick={() => setDeleteConfirmId(user._id as string)}
                         >
                           <Trash2 className="mr-2 size-4" /> Delete
                         </DropdownMenuItem>

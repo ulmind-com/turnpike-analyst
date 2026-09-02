@@ -32,7 +32,7 @@ export function ConsultantFormDialog({ open, onOpenChange, consultant }: Props) 
   const isEditing = !!consultant;
 
   const form = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
     defaultValues: {
       name: "",
       role_description: "",

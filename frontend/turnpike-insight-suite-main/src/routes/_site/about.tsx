@@ -226,7 +226,7 @@ function MouseTiltCard({ item, index }: { item: any; index: number }) {
 function AboutPage() {
   const statsQuery = usePublicStats();
   const awardsQuery = usePublicAwards();
-  const counters = statsQuery.data?.slice(0, 4) ?? [];
+  const counters = statsQuery.data?.slice(0, 4).map(c => ({ ...c, value: Number(c.value) })) ?? [];
 
   return (
     <div className="relative w-full overflow-clip bg-background">

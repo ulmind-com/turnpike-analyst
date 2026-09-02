@@ -1367,7 +1367,7 @@ const CUSTOM_SERVICES: Record<string, DynamicServiceData> = {
       }
     ]
   },
-  "digital-content-migration": {
+  "digital-content-migration-dup": {
     heroImage: "/illustrations/service-content-migration.jpg",
     whyItMatters: [
       {
@@ -1401,80 +1401,6 @@ const CUSTOM_SERVICES: Record<string, DynamicServiceData> = {
         title: "SEO Preservation",
         description: "Maintain your hard-earned search rankings. We generate comprehensive 301 redirect maps to ensure Google instantly recognizes your new architecture.",
         img: "/images/engineering.png"
-      }
-    ]
-  },
-  "digital-content-migration-2": {
-    heroImage: "/images/cybersecurity.png",
-    whyItMatters: [
-      {
-        title: "Zero Data Loss",
-        description: "Content is your most valuable asset. We guarantee 100% fidelity during migrations, ensuring no metadata, SEO routing, or media is ever orphaned.",
-        icon: "ShieldCheck"
-      },
-      {
-        title: "Seamless Transitions",
-        description: "Downtime costs money. We execute complex multi-terabyte migrations in the background, cutting over instantly without disrupting your users.",
-        icon: "ArrowRightLeft"
-      },
-      {
-        title: "Architecture Modernization",
-        description: "Migration is the perfect time to upgrade. We restructure your bloated legacy content into agile, headless CMS frameworks.",
-        icon: "Database"
-      }
-    ],
-    offerings: [
-      {
-        title: "Legacy CMS Extraction",
-        description: "Automated extraction of articles, images, and complex nested data from aging systems like Drupal 7, Sitecore, or proprietary monolithic platforms.",
-        img: "/images/ai.png"
-      },
-      {
-        title: "Data Cleansing & Mapping",
-        description: "We don't just move garbage. We use AI to programmatically clean HTML, standardize metadata, and map old taxonomy to your new structured schemas.",
-        img: "/images/cloud.png"
-      },
-      {
-        title: "SEO Preservation",
-        description: "Maintain your hard-earned search rankings. We generate comprehensive 301 redirect maps to ensure Google instantly recognizes your new architecture.",
-        img: "/images/generic_1.png"
-      }
-    ]
-  },
-  "managed-services": {
-    heroImage: "/illustrations/service-managed-services.jpg",
-    whyItMatters: [
-      {
-        title: "Proactive Monitoring",
-        description: "We identify and resolve infrastructure bottlenecks and security threats before they ever impact your end users.",
-        icon: "Eye"
-      },
-      {
-        title: "Predictable Costs",
-        description: "Replace unpredictable break-fix expenses with a flat, transparent monthly fee for comprehensive enterprise IT support.",
-        icon: "DollarSign"
-      },
-      {
-        title: "Core Focus",
-        description: "Stop wasting executive time on IT fires. Offload your infrastructure management to us so you can focus exclusively on growing your business.",
-        icon: "Target"
-      }
-    ],
-    offerings: [
-      {
-        title: "24/7 Cloud Operations (NOC)",
-        description: "Around-the-clock monitoring, patching, and incident response for your AWS, Azure, or Google Cloud environments.",
-        img: "/images/engineering.png"
-      },
-      {
-        title: "Managed Cybersecurity (SOC)",
-        description: "Continuous threat hunting, vulnerability scanning, and automated incident isolation to protect your digital assets.",
-        img: "/images/cybersecurity.png"
-      },
-      {
-        title: "Application Support",
-        description: "Tier 2 and Tier 3 support for your custom enterprise software, ensuring bugs are squashed quickly and technical debt is managed.",
-        img: "/images/ai.png"
       }
     ]
   }
@@ -1676,8 +1602,8 @@ export function getServiceDynamicData(slug: string, title: string, industriesPoo
       industriesUsed.add(idx);
       const item = activePool[idx];
       industries.push({
-        name: typeof item === 'string' ? item : (item.title || item.name),
-        icon: typeof item === 'string' ? "Briefcase" : (item.icon || "Briefcase")
+        name: typeof item === 'string' ? item : ((item as any).title || (item as any).name),
+        icon: typeof item === 'string' ? "Briefcase" : ((item as any).icon || "Briefcase")
       });
     }
     iAttempt++;

@@ -85,7 +85,7 @@ function ConsultantsPage() {
                     <TableCell className="font-medium">{c.name}</TableCell>
                     <TableCell className="max-w-[300px] truncate">{c.role_description}</TableCell>
                     <TableCell>
-                      <Badge variant={c.is_active ? "success" : "secondary"}>
+                      <Badge variant={c.is_active ? "default" : "secondary"}>
                         {c.is_active ? "Active" : "Inactive"}
                       </Badge>
                     </TableCell>

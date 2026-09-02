@@ -1,5 +1,5 @@
 import { apiClient, request } from "@/api/client";
-import type { LoginResponse, Token, UserCreate, UserResponse, UserUpdate } from "@/types/api";
+import type { LoginResponse, Token, UserCreate, UserResponse } from "@/types/api";
 
 /** POST /auth/login — OAuth2 password flow (form-encoded). */
 export async function login(email: string, password: string): Promise<LoginResponse> {
@@ -25,5 +25,5 @@ export const refreshToken = (refresh_token: string) =>
 
 export const getMe = () => request<UserResponse>({ url: "/auth/me", method: "GET" });
 
-export const updateMe = (payload: Partial<UserUpdate>) => request<UserResponse>({ url: "/auth/me", method: "PATCH", data: payload });
+export const updateMe = (payload: Partial<UserResponse>) => request<UserResponse>({ url: "/auth/me", method: "PATCH", data: payload });
 

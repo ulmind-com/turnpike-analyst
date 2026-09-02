@@ -47,7 +47,7 @@ function IndustryDetailPage() {
           <div className="flex items-center gap-2 text-sm text-slate-500 font-medium mb-8">
             <Link to="/" className="hover:text-primary transition-colors">Home</Link>
             <LucideIcons.ChevronRight className="h-4 w-4" />
-            <Link to="/industries" className="hover:text-primary transition-colors">Industries</Link>
+            <Link to="/" className="hover:text-primary transition-colors">Industries</Link>
             <LucideIcons.ChevronRight className="h-4 w-4" />
             <span className="text-slate-900">{title}</span>
           </div>

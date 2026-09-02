@@ -40,6 +40,8 @@ import type {
   PageParams,
   ServiceCreate,
   ServiceUpdate,
+  IndustryCreate,
+  IndustryUpdate,
 } from "@/types/api";
 
 const onError = (error: unknown) => {

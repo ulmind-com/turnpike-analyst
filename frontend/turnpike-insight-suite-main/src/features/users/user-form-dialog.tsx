@@ -81,7 +81,7 @@ export function UserFormDialog({
 
     try {
       if (user) {
-        await update.mutateAsync({ id: user._id, payload: form });
+        await update.mutateAsync({ id: user._id as string, payload: form });
       } else {
         await create.mutateAsync(form);
       }

@@ -56,7 +56,7 @@ function DigitalContentPage() {
   const params = {
     skip: 0,
     limit: 10000,
-    parent_category: "DIGITAL_CONTENT_SERVICES",
+    parent_category: "DIGITAL_CONTENT_SERVICES" as any,
   };
   const query = useServices(params);
   const remove = useDeleteService();

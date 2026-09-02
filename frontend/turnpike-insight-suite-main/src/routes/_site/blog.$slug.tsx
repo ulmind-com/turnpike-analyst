@@ -70,8 +70,8 @@ function BlogDetailPage() {
       {/* Immersive Hero Header with Primary Theme Color */}
       <div className="relative w-full min-h-[60vh] flex flex-col justify-end pb-24 pt-32 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 z-0 bg-primary">
-           {post.data.image_url && (
-             <img src={post.data.image_url} alt={post.data.title} className="w-full h-full object-cover opacity-20 mix-blend-multiply" />
+           {(post.data as any).image_url && (
+             <img src={(post.data as any).image_url} alt={post.data.title} className="w-full h-full object-cover opacity-20 mix-blend-multiply" />
            )}
            <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-primary/40 to-transparent"></div>
         </div>

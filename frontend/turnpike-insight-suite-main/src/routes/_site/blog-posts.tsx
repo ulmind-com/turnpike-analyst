@@ -110,7 +110,8 @@ function BlogPosts() {
                   </p>
                   <div className="mt-auto">
                     <Link 
-                      to={`/blog-posts/${blog.slug}`} 
+                      to="/blog-posts/$slug" 
+                      params={{ slug: blog.slug }}
                       className="inline-block text-sm font-semibold text-[#10B981] border border-[#10B981] rounded-full px-5 py-2 hover:bg-[#10B981] hover:text-white transition-colors"
                     >
                       Read More

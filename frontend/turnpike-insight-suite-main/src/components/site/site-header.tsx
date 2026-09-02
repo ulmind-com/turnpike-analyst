@@ -323,7 +323,7 @@ export function SiteHeader({ revealOnScroll = false }: { revealOnScroll?: boolea
               const newDark = !dark;
               setPref("dark", newDark);
               if (isAuthenticated) {
-                updateProfile.mutate({ theme: newDark ? "dark" : "light" });
+                updateProfile.mutate({ theme: newDark ? "dark" : "light" } as any);
               }
             }}
             className="grid size-10 shrink-0 place-items-center rounded-full border border-border/60 bg-background/60 text-foreground transition-colors hover:text-primary mr-1 sm:mr-2"

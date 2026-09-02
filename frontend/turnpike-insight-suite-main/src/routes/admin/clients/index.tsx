@@ -106,7 +106,8 @@ function AdminClientsPage() {
               return (
                 <Link 
                   key={cat._id} 
-                  to={`/admin/clients/${encodeURIComponent(cat.category)}`}
+                  to="/admin/clients/$industryName"
+                  params={{ industryName: cat.category }}
                   className="group relative p-4 border rounded-lg bg-slate-50 flex items-center gap-3 hover:border-primary hover:shadow-sm transition-all cursor-pointer"
                 >
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center font-bold text-slate-400 group-hover:text-primary transition-colors overflow-hidden border shadow-sm shrink-0">

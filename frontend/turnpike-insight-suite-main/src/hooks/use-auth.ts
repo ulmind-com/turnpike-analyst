@@ -9,7 +9,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { queryKeys } from "@/constants/query-keys";
 import { useAuthStore } from "@/store/auth-store";
-import type { UserRole, UserUpdate } from "@/types/api";
+import type { UserRole } from "@/types/api";
 import { usePrefs } from "./use-prefs";
 
 export function useSession() {
@@ -19,8 +19,8 @@ export function useSession() {
     queryKey: queryKeys.me,
     queryFn: async () => {
       const data = await getMe();
-      if (data.theme) {
-        usePrefs.getState().setPref("dark", data.theme === "dark");
+      if ((data as any).theme) {
+        usePrefs.getState().setPref("dark", (data as any).theme === "dark");
       }
       return data;
     },
