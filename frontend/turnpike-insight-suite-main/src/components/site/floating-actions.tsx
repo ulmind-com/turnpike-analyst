@@ -26,7 +26,7 @@ export function FloatingActions() {
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             whileHover={{ y: -3 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="grid size-11 place-items-center rounded-full border border-white/60 bg-white/70 text-primary backdrop-blur-xl shadow-[0_16px_36px_-20px_color-mix(in_oklab,var(--primary)_70%,transparent)]"
+            className="grid size-11 place-items-center rounded-full border border-border/60 bg-background/70 text-primary backdrop-blur-xl shadow-[0_16px_36px_-20px_color-mix(in_oklab,var(--primary)_70%,transparent)]"
           >
             <ArrowUp className="size-4" />
           </motion.button>

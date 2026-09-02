@@ -51,7 +51,7 @@ export function JourneyTimeline({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="sticky flex flex-col md:flex-row items-center justify-between gap-8 rounded-[2rem] border border-white/50 bg-white/60 p-8 md:p-12 backdrop-blur-xl shadow-[0_18px_50px_-26px_color-mix(in_oklab,var(--primary)_45%,transparent)] mb-[15vh] overflow-hidden group origin-top"
+            className="sticky flex flex-col md:flex-row items-center justify-between gap-8 rounded-[2rem] border border-border/50 bg-card/60 p-8 md:p-12 backdrop-blur-xl shadow-[0_18px_50px_-26px_color-mix(in_oklab,var(--primary)_45%,transparent)] mb-[15vh] overflow-hidden group origin-top"
             style={{
               top: `${topOffset}px`,
               zIndex: index,
@@ -76,7 +76,7 @@ export function JourneyTimeline({
 
             {/* Circular Graphic */}
             <div className="relative z-10 hidden md:grid size-40 place-items-center rounded-full bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))] shadow-lg transition-transform duration-500 group-hover:scale-105">
-              <div className="grid size-[8.5rem] place-items-center rounded-full bg-white/90 backdrop-blur-sm">
+              <div className="grid size-[8.5rem] place-items-center rounded-full bg-background/90 backdrop-blur-sm">
                 <span className="font-display text-4xl font-bold text-transparent bg-clip-text bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))]">
                   '{item.year.slice(-2)}
                 </span>

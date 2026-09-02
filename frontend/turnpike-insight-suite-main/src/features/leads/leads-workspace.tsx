@@ -42,8 +42,8 @@ export function LeadsWorkspace({
   const [active, setActive] = useState<LeadResponse | null>(null);
 
   const params = {
-    skip: page * pageSize,
-    limit: pageSize,
+    skip: 0,
+    limit: 10000,
     ...(status === "ALL" ? {} : { status }),
   };
   const query = useLeads(params);

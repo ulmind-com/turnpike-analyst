@@ -101,9 +101,9 @@ export function FeatureSpotlight({
           <motion.div
             whileHover={{ y: -10, rotateX: 2, rotateY: reverse ? -2.5 : 2.5, scale: 1.01 }}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
-            className="group relative rounded-[2rem] border border-white/50 bg-white/45 p-2 backdrop-blur-xl shadow-[0_24px_60px_-28px_color-mix(in_oklab,var(--primary)_55%,transparent)] transition-shadow duration-500 hover:shadow-[0_36px_80px_-26px_color-mix(in_oklab,var(--primary)_70%,transparent)]"
+            className="group relative rounded-[2rem] border border-border/50 bg-card/45 p-2 backdrop-blur-xl shadow-[0_24px_60px_-28px_color-mix(in_oklab,var(--primary)_55%,transparent)] transition-shadow duration-500 hover:shadow-[0_36px_80px_-26px_color-mix(in_oklab,var(--primary)_70%,transparent)]"
           >
-            <div className="relative overflow-hidden rounded-[1.6rem] border border-white/40 bg-card/60 p-8 backdrop-blur-2xl">
+            <div className="relative overflow-hidden rounded-[1.6rem] border border-border/40 bg-card/60 p-8 backdrop-blur-2xl">
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-90"

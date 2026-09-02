@@ -10,4 +10,7 @@ export const queryKeys = {
   blogs: (params?: unknown) => ["blogs", params ?? {}] as const,
   blog: (slug: string) => ["blogs", "detail", slug] as const,
   subscribers: (params?: unknown) => ["newsletter", "subscribers", params ?? {}] as const,
+  users: (params?: unknown) => ["users", params ?? {}] as const,
+  activityLogs: (params?: unknown) => ["activity-logs", params ?? {}] as const,
+  assets: (params?: unknown) => ["cms-assets", params ?? {}] as const,
 };

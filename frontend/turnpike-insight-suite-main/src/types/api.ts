@@ -136,11 +136,29 @@ export interface ServiceResponse {
   full_description: string;
   supported_platforms?: string[];
   is_featured?: boolean;
+  sections?: { heading: string; text: string }[];
   created_at?: string;
 }
 
 export type ServiceCreate = Omit<ServiceResponse, "_id" | "created_at">;
 export type ServiceUpdate = Partial<ServiceCreate>;
+
+export interface IndustryResponse {
+  _id?: string;
+  title: string;
+  slug: string;
+  parent_category: string;
+  short_description: string;
+  full_description: string;
+  supported_platforms?: string[];
+  is_featured?: boolean;
+  sections?: { heading: string; text: string }[];
+  created_at?: string;
+}
+
+export type IndustryCreate = Omit<IndustryResponse, "_id" | "created_at">;
+export type IndustryUpdate = Partial<IndustryCreate>;
+
 
 export interface LeadResponse {
   _id?: string;

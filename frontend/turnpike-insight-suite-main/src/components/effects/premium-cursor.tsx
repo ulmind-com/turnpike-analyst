@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { usePrefs } from "@/hooks/use-prefs";
 
 /**
  * Premium cursor: glow core, elastic trailing ring, magnetic morph over
@@ -7,8 +8,10 @@ import { useEffect, useRef } from "react";
 export function PremiumCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const { customCursor, reducedMotion } = usePrefs();
 
   useEffect(() => {
+    if (!customCursor || reducedMotion) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -69,18 +72,20 @@ export function PremiumCursor() {
       cancelAnimationFrame(raf);
       document.documentElement.classList.remove("premium-cursor-active");
     };
-  }, []);
+  }, [customCursor, reducedMotion]);
+
+  if (!customCursor || reducedMotion) return null;
 
   return (
     <div aria-hidden>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] size-2 rounded-full gradient-brand"
+        className="pointer-events-none fixed left-0 top-0 z-[9999] size-1.5 rounded-full gradient-brand"
         style={{ boxShadow: "0 0 14px color-mix(in oklab, var(--primary) 70%, transparent)" }}
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] size-9 rounded-full border transition-[background,border-color] duration-300 data-[state=hover]:border-transparent"
+        className="pointer-events-none fixed left-0 top-0 z-[9999] size-6 rounded-full border transition-[background,border-color] duration-300 data-[state=hover]:border-transparent"
         style={{
           borderColor: "color-mix(in oklab, var(--primary) 55%, transparent)",
           background: "color-mix(in oklab, var(--brand-cyan) 10%, transparent)",

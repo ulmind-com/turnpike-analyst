@@ -20,14 +20,14 @@ export function AwardsStrip({ items }: { items: readonly { title: string; body: 
             className={reduced ? undefined : "float-card"}
             style={reduced ? undefined : { animationDelay: `${index * 0.55}s` }}
           >
-            <div className="group relative overflow-hidden rounded-[2rem] border border-white/50 bg-white/45 p-2 backdrop-blur-xl shadow-[0_18px_50px_-26px_color-mix(in_oklab,var(--primary)_45%,transparent)] transition-shadow duration-500 hover:shadow-[0_30px_70px_-22px_color-mix(in_oklab,var(--primary)_65%,transparent)]">
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-white/40 bg-card/60 p-6 backdrop-blur-2xl">
+            <div className="group relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/45 p-2 backdrop-blur-xl shadow-[0_18px_50px_-26px_color-mix(in_oklab,var(--primary)_45%,transparent)] transition-shadow duration-500 hover:shadow-[0_30px_70px_-22px_color-mix(in_oklab,var(--primary)_65%,transparent)]">
+              <div className="relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-border/40 bg-card/60 p-6 backdrop-blur-2xl">
                 <span
                   aria-hidden
                   className="pointer-events-none absolute inset-0 origin-bottom scale-y-0 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100 group-hover:opacity-100"
                   style={{
                     background:
-                      "linear-gradient(160deg, color-mix(in oklab, var(--primary) 14%, white), color-mix(in oklab, var(--brand-cyan) 18%, white))",
+                      "linear-gradient(160deg, color-mix(in oklab, var(--primary) 14%, var(--background)), color-mix(in oklab, var(--brand-cyan) 18%, var(--background)))",
                   }}
                 />
                 <span aria-hidden className="sheen" />

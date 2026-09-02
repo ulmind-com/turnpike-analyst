@@ -12,13 +12,14 @@ router = APIRouter()
 
 @router.get("/", response_model=List[ServiceResponse])
 async def list_services(
-    parent_category: Optional[ParentCategory] = Query(None, description="Filter by parent category"),
-    sub_service_type: Optional[SubServiceType] = Query(None, description="Filter by sub-service type"),
+    parent_category: Optional[str] = Query(None, description="Filter by parent category"),
+    sub_service_type: Optional[str] = Query(None, description="Filter by sub-service type"),
+    exclude_category: Optional[str] = Query(None, description="Exclude a specific parent category"),
     skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=500),
+    limit: int = Query(100, ge=1, le=10000),
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
-    services = await get_services(db, parent_category=parent_category, sub_service_type=sub_service_type, skip=skip, limit=limit)
+    services = await get_services(db, parent_category=parent_category, sub_service_type=sub_service_type, exclude_category=exclude_category, skip=skip, limit=limit)
     return services
 
 @router.get("/{slug}", response_model=ServiceResponse)

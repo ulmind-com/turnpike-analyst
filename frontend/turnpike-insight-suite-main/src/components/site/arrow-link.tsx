@@ -21,7 +21,7 @@ export function ArrowLink({
     "group/arrow inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300",
     variant === "solid"
       ? "bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))] text-primary-foreground hover:brightness-105 hover:shadow-[0_18px_40px_-18px_color-mix(in_oklab,var(--primary)_70%,transparent)]"
-      : "border border-white/60 bg-white/40 text-foreground backdrop-blur hover:border-primary/40 hover:text-primary",
+      : "border border-border/60 bg-card/40 text-foreground backdrop-blur hover:border-primary/40 hover:text-primary",
     className,
   );
 

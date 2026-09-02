@@ -22,8 +22,8 @@ export function RotatingClaims({
   const active = items[index];
 
   return (
-    <div className="rounded-[2rem] border border-white/50 bg-white/45 p-2 backdrop-blur-xl shadow-[0_20px_55px_-28px_color-mix(in_oklab,var(--primary)_50%,transparent)]">
-      <div className="relative overflow-hidden rounded-[1.6rem] border border-white/40 bg-card/60 p-8 backdrop-blur-2xl sm:p-10">
+    <div className="rounded-[2rem] border border-border/50 bg-card/45 p-2 backdrop-blur-xl shadow-[0_20px_55px_-28px_color-mix(in_oklab,var(--primary)_50%,transparent)]">
+      <div className="relative overflow-hidden rounded-[1.6rem] border border-border/40 bg-card/60 px-6 py-12 text-center backdrop-blur-2xl lg:px-12 lg:py-16">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"

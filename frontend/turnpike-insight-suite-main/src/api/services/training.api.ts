@@ -32,3 +32,13 @@ export const listInstructorApplications = (params: InstructorApplicationParams =
 
 export const becomeInstructor = (payload: Record<string, unknown>) =>
   request({ url: "/training/become-instructor", method: "POST", data: payload });
+
+export const createCourse = (data: Partial<CourseResponse>) =>
+  request<CourseResponse>({ url: "/training/courses", method: "POST", data });
+
+export const updateCourse = (slug: string, data: Partial<CourseResponse>) =>
+  request<CourseResponse>({ url: `/training/courses/${slug}`, method: "PUT", data });
+
+export const deleteCourse = (slug: string) =>
+  request<void>({ url: `/training/courses/${slug}`, method: "DELETE" });
+

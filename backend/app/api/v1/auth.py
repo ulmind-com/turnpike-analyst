@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+import firebase_admin.auth
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from jose import JWTError
 from app.db.mongodb import get_db
-from app.schemas.user import UserCreate, UserResponse
-from app.schemas.auth import Token, LoginResponse, RefreshTokenRequest
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.schemas.auth import Token, LoginResponse, RefreshTokenRequest, FirebaseLoginRequest
 from app.crud.user import get_user_by_email, get_user_by_id, create_user
 from app.core.security import verify_password, create_access_token, create_refresh_token, decode_token
 from app.api.deps import get_current_active_user
@@ -31,6 +32,35 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncIOMot
     if not user.get("is_active", True):
         raise HTTPException(status_code=400, detail="Inactive user")
     
+    sub = str(user["_id"])
+    access_token = create_access_token(sub)
+    refresh_token = create_refresh_token(sub)
+    return {
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "bearer",
+        "user": user
+    }
+
+@router.post("/google", response_model=LoginResponse)
+async def login_with_google(request: FirebaseLoginRequest, db: AsyncIOMotorDatabase = Depends(get_db)):
+    try:
+        decoded_token = firebase_admin.auth.verify_id_token(request.firebase_token, clock_skew_seconds=60)
+        email = decoded_token.get("email")
+        if not email:
+            raise HTTPException(status_code=400, detail="No email found in token")
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=f"Invalid Firebase token: {str(e)}")
+        
+    user = await get_user_by_email(db, email)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access denied. Account not found in Enterprise Console."
+        )
+    if not user.get("is_active", True):
+        raise HTTPException(status_code=400, detail="Inactive user")
+        
     sub = str(user["_id"])
     access_token = create_access_token(sub)
     refresh_token = create_refresh_token(sub)
@@ -70,3 +100,12 @@ async def refresh_token(token_in: RefreshTokenRequest, db: AsyncIOMotorDatabase 
 @router.get("/me", response_model=UserResponse)
 async def read_users_me(current_user: dict = Depends(get_current_active_user)):
     return current_user
+
+@router.patch("/me", response_model=UserResponse)
+async def update_user_me(user_in: UserUpdate, db: AsyncIOMotorDatabase = Depends(get_db), current_user: dict = Depends(get_current_active_user)):
+    from app.crud.user import update_user
+    user = await update_user(db, str(current_user["_id"]), user_in)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+

@@ -21,7 +21,7 @@ import {
 
 const NAV = [
   { label: "Why Turnpike", href: "#services" },
-  { label: "Features", href: "#products" },
+  { label: "Platforms", href: "#platforms" },
   { label: "Pricing", href: "#training" },
   { label: "Contact", href: "#contact" },
 ];
@@ -47,7 +47,7 @@ export function HeroAJ() {
   return (
     <section ref={ref} className="hero-aj relative overflow-hidden">
       {/* soft cream → lilac wash */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,#FFFFFF_0%,#F2FBF7_35%,#ECFAFB_68%,#E6F4FD_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,#FFFFFF_0%,#F2FBF7_35%,#ECFAFB_68%,#E6F4FD_100%)] dark:opacity-0" />
       <div className="pointer-events-none absolute -left-24 top-1/3 size-[420px] rounded-full bg-[#34D399]/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 -top-24 size-[460px] rounded-full bg-[#0EA5E9]/10 blur-3xl" />
 
@@ -56,7 +56,7 @@ export function HeroAJ() {
         <div className="mt-12 grid items-center gap-10 lg:mt-4 lg:grid-cols-[1.05fr_1fr]">
           {/* ---------- copy ---------- */}
           <motion.div style={{ y: copyY }} className="relative z-10">
-            <h1 style={{ fontFamily: "var(--font-hero-display)" }} className="text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-[#0B2B33] sm:text-6xl xl:text-[4.4rem]">
+            <h1 style={{ fontFamily: "var(--font-hero-display)" }} className="text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-[#0B2B33] dark:text-foreground sm:text-6xl xl:text-[4.4rem]">
               {["We Are Solution", "Oriented"].map((line, i) => (
                 <motion.span
                   key={line}
@@ -90,7 +90,7 @@ export function HeroAJ() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.42, duration: 0.6 }}
-              className="mt-6 max-w-lg text-[15px] leading-relaxed text-[#4F6B72]"
+              className="mt-6 max-w-lg text-[15px] leading-relaxed text-[#4F6B72] dark:text-muted-foreground"
             >
               Enterprise content migration, intelligent automation and practitioner-led training —
               engineered for organisations that cannot afford to lose a single record.
@@ -169,16 +169,6 @@ export function HeroAJ() {
               <div className={reduce ? "absolute inset-0" : "orbit-spin absolute inset-0"}>
                 <svg viewBox="0 0 100 100" className="absolute inset-0 size-full">
                   <circle cx="50" cy="50" r="47" fill="none" stroke="#10B981" strokeWidth="0.5" />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="43"
-                    fill="none"
-                    stroke="#0EA5E9"
-                    strokeWidth="0.35"
-                    strokeDasharray="1.4 3"
-                    opacity=".55"
-                  />
                 </svg>
 
                 {ORBIT.map(({ Icon, angle, size }, index) => {
@@ -320,7 +310,7 @@ function TrustedBy() {
       className="relative mt-12"
     >
       <div className="flex flex-wrap items-center gap-4">
-        <span className="text-sm font-semibold text-[#0B2B33]">Trusted By</span>
+        <span className="text-sm font-semibold text-[#0B2B33] dark:text-slate-200">Trusted By</span>
         {marks.map((Mark, index) => (
           <motion.span
             key={index}

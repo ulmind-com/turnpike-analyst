@@ -14,7 +14,7 @@ async def list_articles(
     category: Optional[BlogCategory] = Query(None, description="Filter by blog category"),
     tag: Optional[str] = Query(None, description="Filter by specific keyword tag"),
     skip: int = Query(0, ge=0),
-    limit: int = Query(20, ge=1, le=100),
+    limit: int = Query(20, ge=1, le=10000),
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     articles = await get_blogs(db, category=category, tag=tag, skip=skip, limit=limit)

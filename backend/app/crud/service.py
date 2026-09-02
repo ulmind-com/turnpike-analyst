@@ -10,16 +10,19 @@ async def ensure_service_indexes(db: AsyncIOMotorDatabase):
 
 async def get_services(
     db: AsyncIOMotorDatabase,
-    parent_category: Optional[ParentCategory] = None,
-    sub_service_type: Optional[SubServiceType] = None,
+    parent_category: Optional[str] = None,
+    sub_service_type: Optional[str] = None,
+    exclude_category: Optional[str] = None,
     skip: int = 0,
     limit: int = 100
 ) -> List[Dict[str, Any]]:
     query = {}
     if parent_category:
-        query["parent_category"] = parent_category.value
+        query["parent_category"] = parent_category
     if sub_service_type:
-        query["sub_service_type"] = sub_service_type.value
+        query["sub_service_type"] = sub_service_type
+    if exclude_category:
+        query["parent_category"] = {"$ne": exclude_category}
     cursor = db.services.find(query).skip(skip).limit(limit)
     return await cursor.to_list(length=limit)
 
@@ -33,8 +36,8 @@ async def get_service_by_id(db: AsyncIOMotorDatabase, service_id: str) -> Option
 
 async def create_service(db: AsyncIOMotorDatabase, service_in: ServiceCreate) -> Dict[str, Any]:
     service_dict = service_in.model_dump()
-    service_dict["parent_category"] = service_in.parent_category.value
-    service_dict["sub_service_type"] = service_in.sub_service_type.value
+    service_dict["parent_category"] = service_in.parent_category
+    service_dict["sub_service_type"] = service_in.sub_service_type
     service_dict["created_at"] = datetime.now(timezone.utc)
     result = await db.services.insert_one(service_dict)
     service_dict["_id"] = result.inserted_id
@@ -44,10 +47,7 @@ async def update_service(db: AsyncIOMotorDatabase, service_id: str, service_in: 
     if not ObjectId.is_valid(service_id):
         return None
     update_data = service_in.model_dump(exclude_unset=True)
-    if "parent_category" in update_data and update_data["parent_category"] is not None:
-        update_data["parent_category"] = update_data["parent_category"].value
-    if "sub_service_type" in update_data and update_data["sub_service_type"] is not None:
-        update_data["sub_service_type"] = update_data["sub_service_type"].value
+    # Enum strings are directly written to db now without needing .value extraction
     
     if update_data:
         await db.services.update_one({"_id": ObjectId(service_id)}, {"$set": update_data})

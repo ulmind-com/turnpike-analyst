@@ -53,10 +53,12 @@ const EMPTY: ServiceCreate = {
 export function ServiceFormDialog({
   open,
   service,
+  defaultCategory,
   onOpenChange,
 }: {
   open: boolean;
   service: ServiceResponse | null;
+  defaultCategory?: ParentCategory;
   onOpenChange: (open: boolean) => void;
 }) {
   const [form, setForm] = useState<ServiceCreate>(EMPTY);
@@ -76,11 +78,11 @@ export function ServiceFormDialog({
       setForm(rest);
       setPlatforms((service.supported_platforms ?? []).join(", "));
     } else {
-      setForm(EMPTY);
+      setForm({ ...EMPTY, parent_category: defaultCategory || EMPTY.parent_category });
       setPlatforms("");
     }
     setErrors({});
-  }, [open, service]);
+  }, [open, service, defaultCategory]);
 
   const set = <K extends keyof ServiceCreate>(key: K, value: ServiceCreate[K]) =>
     setForm((current) => ({ ...current, [key]: value }));

@@ -12,12 +12,10 @@ import { WaveDivider } from "@/components/site/wave-divider";
 import { FloatingParticles } from "@/components/site/floating-particles";
 import { Button } from "@/components/ui/button";
 import {
-  AWARDS,
-  COUNTERS,
-  IMPACT_STATS,
   JOURNEY,
   LEADERSHIP,
 } from "@/content/site-content";
+import { usePublicStats, usePublicAwards } from "@/hooks/use-public-api";
 
 export const Route = createFileRoute("/_site/about")({
   head: () => ({
@@ -84,7 +82,7 @@ const AnimatedText = ({ text, className, as: Component = "h1" }: { text: string;
 
 function FortmindzHero() {
   return (
-    <section className="relative min-h-screen bg-[#333333] pt-32 pb-32 overflow-hidden flex flex-col justify-center">
+    <section className="relative min-h-screen bg-[#333333] pt-12 pb-32 overflow-hidden flex flex-col justify-center">
       {/* Dot Pattern Background on Left */}
       <div 
         className="absolute top-0 left-0 w-1/3 h-full pointer-events-none opacity-60" 
@@ -226,6 +224,10 @@ function MouseTiltCard({ item, index }: { item: any; index: number }) {
 }
 
 function AboutPage() {
+  const statsQuery = usePublicStats();
+  const awardsQuery = usePublicAwards();
+  const counters = statsQuery.data?.slice(0, 4) ?? [];
+
   return (
     <div className="relative w-full overflow-clip bg-background">
       <FloatingParticles />
@@ -401,7 +403,7 @@ function AboutPage() {
           title="Our impact in numbers"
           description="Two decades of delivery across regulated industries, measured the only way that matters."
         />
-        <CounterBand items={COUNTERS} />
+        <CounterBand items={counters} />
       </Section>
 
       <WaveDivider variant="wave" />
@@ -412,7 +414,7 @@ function AboutPage() {
           title="Recognised by the industry we serve"
           description="Independent recognition for migration delivery, automation and enablement."
         />
-        <AwardsStrip items={AWARDS} />
+        <AwardsStrip items={awardsQuery.data ?? []} />
       </Section>
       </div>
     </div>

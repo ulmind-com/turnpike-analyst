@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List, Callable
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
@@ -60,3 +60,15 @@ async def get_current_admin_or_consultant(
             detail="The user does not have enough privileges (Admin or Consultant required)"
         )
     return current_user
+
+def require_roles(roles: List[str]) -> Callable:
+    async def role_checker(current_user: Dict[str, Any] = Depends(get_current_active_user)):
+        if current_user.get("role") not in roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"The user does not have enough privileges (Requires one of: {', '.join(roles)})"
+            )
+        return current_user
+    return role_checker
+
+

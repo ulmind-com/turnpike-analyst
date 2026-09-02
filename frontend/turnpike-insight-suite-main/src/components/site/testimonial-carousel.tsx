@@ -7,8 +7,8 @@ type Testimonial = { quote: string; name: string; role: string };
 
 function ReviewCard({ item }: { item: Testimonial }) {
   return (
-    <article className="group relative w-[19rem] shrink-0 rounded-[2rem] border border-white/50 bg-white/45 p-2 backdrop-blur-xl shadow-[0_22px_60px_-30px_color-mix(in_oklab,var(--primary)_50%,transparent)] transition-transform duration-500 hover:-translate-y-2 sm:w-[24rem]">
-      <div className="relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-white/40 bg-card/60 p-7 backdrop-blur-2xl">
+    <article className="group relative w-[19rem] shrink-0 rounded-[2rem] border border-border/50 bg-card/45 p-2 backdrop-blur-xl shadow-[0_22px_60px_-30px_color-mix(in_oklab,var(--primary)_50%,transparent)] transition-transform duration-500 hover:-translate-y-2 sm:w-[24rem]">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-border/40 bg-card/60 p-6 backdrop-blur-2xl sm:p-8">
         <span
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"

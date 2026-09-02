@@ -16,3 +16,25 @@ export const bookCall = (payload: Record<string, unknown>) =>
 
 export const submitNeeds = (payload: Record<string, unknown>) =>
   request({ url: "/leads/submit-needs", method: "POST", data: payload });
+
+export const submitSupportTicket = (payload: {
+  first_name: string;
+  last_name: string;
+  email: string;
+  subject: string;
+  message: string;
+}) =>
+  request<LeadResponse>({
+    url: "/leads/book-call",
+    method: "POST",
+    data: {
+      type: "BOOK_CALL",
+      full_name: `${payload.first_name} ${payload.last_name}`.trim(),
+      email: payload.email,
+      phone: "",
+      company: "",
+      department: "HELP_DESK",
+      subject: payload.subject,
+      message: payload.message,
+    },
+  });

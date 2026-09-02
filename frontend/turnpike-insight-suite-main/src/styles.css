@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000&family=Poppins:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss" source(none);
+@plugin "@tailwindcss/typography";
 @source "../src";
 @import "tw-animate-css";
 
@@ -148,31 +149,31 @@
 }
 
 .dark {
-  --background: oklch(0.19 0.028 245);
+  --background: oklch(0.12 0.02 240);
   --foreground: oklch(0.97 0.008 220);
-  --card: oklch(0.24 0.03 245);
+  --card: oklch(0.15 0.025 240);
   --card-foreground: oklch(0.97 0.008 220);
-  --popover: oklch(0.24 0.03 245);
+  --popover: oklch(0.15 0.025 240);
   --popover-foreground: oklch(0.97 0.008 220);
   --primary: oklch(0.75 0.15 163);
-  --primary-foreground: oklch(0.19 0.04 165);
-  --primary-soft: oklch(0.3 0.06 170);
+  --primary-foreground: oklch(0.15 0.04 165);
+  --primary-soft: oklch(0.20 0.06 170);
   --secondary: oklch(0.7 0.14 237);
-  --secondary-foreground: oklch(0.16 0.04 240);
-  --muted: oklch(0.28 0.03 245);
-  --muted-foreground: oklch(0.72 0.03 225);
-  --accent: oklch(0.3 0.04 220);
+  --secondary-foreground: oklch(0.12 0.04 240);
+  --muted: oklch(0.22 0.03 240);
+  --muted-foreground: oklch(0.75 0.03 225);
+  --accent: oklch(0.25 0.04 220);
   --accent-foreground: oklch(0.96 0.01 210);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
   --ring: oklch(0.75 0.15 163);
-  --glass: oklch(0.28 0.03 245 / 62%);
+  --glass: oklch(0.15 0.025 240 / 62%);
   --glass-border: oklch(1 0 0 / 14%);
-  --sidebar: oklch(0.22 0.03 245 / 80%);
+  --sidebar: oklch(0.12 0.02 240 / 80%);
   --sidebar-foreground: oklch(0.97 0.008 220);
   --sidebar-primary: oklch(0.75 0.15 163);
-  --sidebar-primary-foreground: oklch(0.17 0.04 165);
-  --sidebar-accent: oklch(0.3 0.04 220);
+  --sidebar-primary-foreground: oklch(0.12 0.04 165);
+  --sidebar-accent: oklch(0.25 0.04 220);
   --sidebar-accent-foreground: oklch(0.96 0.01 210);
   --sidebar-border: oklch(1 0 0 / 10%);
   --shadow-glass:
@@ -536,3 +537,4 @@
     cursor: auto !important;
   }
 }
+

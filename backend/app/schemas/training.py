@@ -18,6 +18,17 @@ class CourseBase(BaseSchema):
 class CourseCreate(CourseBase):
     pass
 
+class CourseUpdate(BaseSchema):
+    title: Optional[str] = None
+    slug: Optional[str] = None
+    category: Optional[CourseCategory] = None
+    duration_hours: Optional[int] = Field(None, gt=0)
+    level: Optional[CourseLevel] = None
+    curriculum: Optional[List[Dict[str, Any]]] = None
+    instructor_id: Optional[PyObjectId] = None
+    price: Optional[float] = Field(None, ge=0.0)
+    is_published: Optional[bool] = None
+
 class CourseResponse(CourseBase):
     id: PyObjectId = Field(default_factory=lambda: "000000000000000000000000", alias="_id")
 

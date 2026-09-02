@@ -2,19 +2,19 @@ import asyncio
 import logging
 from app.db.mongodb import db_client, get_db
 from app.models.enums import (
-    UserRole, ParentCategory, SubServiceType, ProductCode, 
+    UserRole, ParentCategory, SubServiceType, 
     CourseCategory, CourseLevel, BlogCategory
 )
 from app.schemas.user import UserCreate
 from app.schemas.service import ServiceCreate
-from app.schemas.product import ProductCreate
 from app.schemas.training import CourseCreate
 from app.schemas.blog import BlogCreate
 from app.crud.user import get_user_by_email, create_user, ensure_user_indexes
 from app.crud.service import get_service_by_slug, create_service, ensure_service_indexes
-from app.crud.product import get_product_by_code, create_product, ensure_product_indexes
 from app.crud.training import get_course_by_slug, create_course, ensure_training_indexes
 from app.crud.blog import get_blog_by_slug, create_blog, ensure_blog_indexes
+from app.schemas.content import TestimonialCreate, AwardCreate, StatCreate
+from app.crud.content import create_testimonial, create_award, create_stat
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("seed_data")
@@ -27,7 +27,6 @@ async def seed():
     # Ensure indexes
     await ensure_user_indexes(db)
     await ensure_service_indexes(db)
-    await ensure_product_indexes(db)
     await ensure_training_indexes(db)
     await ensure_blog_indexes(db)
     
@@ -71,7 +70,41 @@ async def seed():
             short_description="High-speed, petabyte-scale content migration from legacy on-prem FileNet and Documentum repositories to cloud storage using JAMES WEBB.",
             full_description="Our proprietary migration methodology eliminates operational downtime while migrating unstructured data, workflows, and complex metadata structures to AWS, Azure, and OpenShift architectures.",
             supported_platforms=["FileNet", "OpenText Documentum", "SharePoint", "AWS S3", "Azure Blob"],
-            is_featured=True
+            is_featured=True,
+            sections=[
+                {
+                    "heading": "",
+                    "text": "TurnPikeAnalyst understands the challenges of migrating and consolidating large volumes of documents from on-premise systems to the cloud. Whether you’re looking to replace an expensive, difficult-to-maintain legacy system or seeking a seamless transition from on-premises solutions to the cloud, our migration platform streamlines the entire process. With our comprehensive mechanism, we ensure the success of your legacy modernization project at speed."
+                },
+                {
+                    "heading": "Efficient and Secure Mass Migrations",
+                    "text": "TurnPikeAnalyst’s migration solution enables you to quickly migrate and consolidate billions of documents while significantly reducing processing times. Our platform ensures the security and consistency of your data, without the risk of data loss. With our expertise, you can seamlessly move content and data between a wide range of leading business applications and ECM systems in a matter of days."
+                },
+                {
+                    "heading": "Meet Complex Business Requirements with Ease",
+                    "text": "Choose from our catalog of over 100 tasks to easily map data, eliminating the need for heavy coding or custom scripts. Our migration platform leverages a standard API, allowing for simple configuration of custom tasks to meet even the most complex business requirements. With our solution, you can accelerate your legacy transformation without compromising on quality or precision."
+                },
+                {
+                    "heading": "Streamline Legacy Transformation",
+                    "text": "Our migration platform simplifies the process by seamlessly managing the transfer of files, metadata, version history, and permissions. We ensure that you get the most out of your new cloud-based system. Built-in insights provide real-time optimization, minimizing the impact on your business operations. With our solution, you can migrate millions of files per day, migrate content, keywords, versions, permissions, users, and annotations, and convert large volumes of files from one format to another."
+                },
+                {
+                    "heading": "Support for Various Source Systems",
+                    "text": "Our migration solution offers flexibility by allowing you to migrate from any source system. Whether it’s content repositories, business applications, network drives, emails, or more, our platform can handle it all. Choose from a catalog of pre-configured templates or build your own connectors to ensure a seamless transition. You can also configure custom rules to migrate content over time or as needed, giving you full control over the migration process."
+                },
+                {
+                    "heading": "Track Progress and Ensure Data Security",
+                    "text": "With our migration solution, you can easily track activity and monitor migration progress with advanced reports. Our built-in insights provide intelligent assessments, enabling you to make data-driven decisions throughout the migration process. We prioritize data security and content integrity, ensuring that your valuable information is safeguarded throughout the migration journey."
+                },
+                {
+                    "heading": "",
+                    "text": "TurnPikeAnalyst is committed to simplifying your legacy modernization journey. With our migration platform, you can quickly and securely migrate and consolidate billions of documents from on-premise to the cloud. Our comprehensive solution empowers your organization to embrace modern technologies, optimize data management, and unlock the full potential of the cloud."
+                },
+                {
+                    "heading": "",
+                    "text": "Book a consultation with our experts today to embark on a streamlined legacy modernization journey with TurnPikeAnalyst."
+                }
+            ]
         ),
         ServiceCreate(
             title="Cognitive Intelligent Document Capture with Kofax & AI",
@@ -229,71 +262,6 @@ async def seed():
             await create_service(db, s_in)
             logger.info(f"Seeded Service: {s_in.title}")
 
-    # 3. Seed Proprietary Products (JAMES WEBB Server & Agent P8)
-    logger.info("Seeding Proprietary Tools (JAMES WEBB Server & Agent P8)...")
-    products_data = [
-        ProductCreate(
-            product_code=ProductCode.JAMES_WEBB,
-            name="JAMES WEBB Server",
-            tagline="High-speed, zero-downtime ECM Content & Metadata Migration Server",
-            description="The JAMES WEBB Server is our flagship proprietary migration engine engineered for petabyte-scale content transformations across FileNet, OpenText Documentum, SharePoint, and cloud object stores with live cryptographic checksum validation.",
-            key_features=[
-                "Petabyte-scale multi-threaded document transfer engine",
-                "Zero-downtime cutover with continuous delta real-time synchronization",
-                "Automated metadata transformation, cleaning, and schema mapping",
-                "Full regulatory chain-of-custody and SHA-256 validation logging"
-            ],
-            supported_environments=["AWS", "Azure", "On-Premises", "Hybrid", "OpenShift"],
-            pricing_tiers=[
-                {
-                    "tier_name": "Standard Enterprise Node",
-                    "price_string": "$25,000 / node / year",
-                    "features": ["Up to 10M documents migration throughput", "8x5 Dedicated SLA Support", "FileNet & Documentum core connectors"],
-                    "description": "Ideal for regional branch consolidation or mid-sized repository migrations."
-                },
-                {
-                    "tier_name": "Unlimited Datastore License",
-                    "price_string": "$75,000 / enterprise license",
-                    "features": ["Unlimited migration volume & multi-node horizontal scaling", "24/7/365 Dedicated SLA Architecture Support", "Custom API connector development & OpenShift Operator integration"],
-                    "description": "Designed for global conglomerate enterprise content transformations."
-                }
-            ],
-            is_active=True
-        ),
-        ProductCreate(
-            product_code=ProductCode.AGENT_P8,
-            name="Agent P8 AI Toolkit",
-            tagline="Autonomous AI Agents engineered for IBM FileNet P8 Content & Cognitive Automations",
-            description="Agent P8 delivers autonomous generative AI workflows directly inside enterprise ECM architectures, embedding IBM watsonx and secure corporate LLMs for automated document compliance auditing, semantic content querying, and generative summarization.",
-            key_features=[
-                "Autonomous FileNet P8 document categorization and intelligent metadata extraction",
-                "IBM watsonx native embedding with zero data leakage corporate privacy shielding",
-                "Natural language semantic searching across complex FileNet object stores",
-                "Automated GDPR, HIPAA, and retention policy compliance audit real-time alerting"
-            ],
-            supported_environments=["AWS", "Azure", "On-Premises", "OpenShift"],
-            pricing_tiers=[
-                {
-                    "tier_name": "Pilot Deployment",
-                    "price_string": "$15,000 / year",
-                    "features": ["5 Autonomous Agent Worker pipelines", "Watsonx foundational model integration", "Standard Technical Team Help Desk Support"],
-                    "description": "Get started with generative AI indexing and automated document categorization."
-                },
-                {
-                    "tier_name": "Enterprise Unlimited AI Suite",
-                    "price_string": "$50,000 / year",
-                    "features": ["Unlimited Autonomous Agents & high-speed OCR processing", "Custom model fine-tuning & workflow orchestration bus", "Dedicated Senior Consultant Account Lead & 2-hour Priority SLA"],
-                    "description": "Full autonomous enterprise content operation and compliance defense suite."
-                }
-            ],
-            is_active=True
-        )
-    ]
-    for p_in in products_data:
-        if not await get_product_by_code(db, p_in.product_code.value):
-            await create_product(db, p_in)
-            logger.info(f"Seeded Product: {p_in.name}")
-
     # 4. Seed Sample Training Courses & CMS Articles
     logger.info("Seeding Training Courses and CMS Articles...")
     courses_data = [
@@ -385,10 +353,56 @@ async def seed():
             is_published=True
         )
     ]
-    for b_in in articles_data:
-        if not await get_blog_by_slug(db, b_in.slug):
-            await create_blog(db, b_in)
-            logger.info(f"Seeded CMS Article: {b_in.title}")
+    
+    existing_blogs = await db.blogs.count_documents({})
+    if existing_blogs == 0:
+        for b in articles_data:
+            if not await get_blog_by_slug(db, b.slug):
+                await create_blog(db, b)
+        logger.info(f"Seeded {len(articles_data)} CMS Blog Articles.")
+    else:
+        logger.info("Blogs already seeded, skipping.")
+
+    # 7. Seed Dynamic Content (Testimonials, Awards, Stats)
+    logger.info("Seeding dynamic UI content (Testimonials, Awards, Stats)...")
+    
+    # Check if we already seeded content by checking for any award
+    existing_awards = await db.awards.count_documents({})
+    if existing_awards == 0:
+        # Awards
+        awards_data = [
+            AwardCreate(title="ECM Modernisation Partner", body="Recognised for large-scale regulated migration delivery."),
+            AwardCreate(title="Automation Excellence", body="Awarded for autonomous platform operations with Agent P8."),
+            AwardCreate(title="Cloud Transformation", body="Honoured for hybrid and cloud-native ECM programmes."),
+            AwardCreate(title="Training Provider of the Year", body="For practitioner-led enablement across enterprise teams.")
+        ]
+        for a in awards_data: await create_award(db, a)
+        
+        # Testimonials
+        testimonials_data = [
+            TestimonialCreate(quote="They moved 40 million objects off Image Services without a single reconciliation exception. The audit team signed off first time.", name="Programme Director", role="Global insurance group"),
+            TestimonialCreate(quote="Agent P8 has replaced an entire on-call rota. Incidents get diagnosed and closed before our team even opens the console.", name="Head of Platform Operations", role="Retail banking"),
+            TestimonialCreate(quote="The training was the difference. Six weeks after cutover our own people were running the estate end to end.", name="Director of Information Management", role="Public sector agency")
+        ]
+        for t in testimonials_data: await create_testimonial(db, t)
+        
+        # Stats (Counters)
+        stats_data = [
+            StatCreate(label="Years Experience", value="20", suffix="+"),
+            StatCreate(label="Countries Covered", value="15", suffix="+"),
+            StatCreate(label="Recent Projects", value="140", suffix=""),
+            StatCreate(label="Succeeded Projects", value="3", suffix="K+"),
+            # Impact Stats
+            StatCreate(label="In-house experts", value="50+", suffix=""),
+            StatCreate(label="Awards in 20 years", value="500+", suffix=""),
+            StatCreate(label="Clients worldwide", value="700+", suffix=""),
+            StatCreate(label="Five-star reviews", value="150+", suffix=""),
+        ]
+        for s in stats_data: await create_stat(db, s)
+        
+        logger.info("Successfully seeded dynamic UI content.")
+    else:
+        logger.info("Dynamic UI content already seeded, skipping.")
 
     logger.info("Database seeding execution completed successfully!")
     db_client.close_db()

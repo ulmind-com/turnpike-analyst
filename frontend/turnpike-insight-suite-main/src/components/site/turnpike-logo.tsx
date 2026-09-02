@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 export function TurnpikeLogo({ className, dark = true, iconOnly = false }: { className?: string, dark?: boolean, iconOnly?: boolean }) {
   return (
     <motion.div 
-      className={cn("flex items-center", className)}
+      className={cn("flex items-center", dark ? "text-white" : "text-slate-900 dark:text-white", className)}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
@@ -47,7 +47,7 @@ export function TurnpikeLogo({ className, dark = true, iconOnly = false }: { cla
           x="160" 
           y="62" 
           textAnchor="middle" 
-          fill={dark ? "#ffffff" : "#0f172a"} 
+          fill="currentColor"
           fontFamily="'Philosopher', sans-serif" 
           fontSize="46" 
           fontWeight="700"

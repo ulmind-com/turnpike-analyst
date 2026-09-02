@@ -1,8 +1,12 @@
 import { useEffect } from "react";
+import { usePrefs } from "@/hooks/use-prefs";
 
 /** Lenis smooth scrolling, mounted client-side only. */
 export function SmoothScroll() {
+  const { smoothScroll, reducedMotion } = usePrefs();
+
   useEffect(() => {
+    if (!smoothScroll || reducedMotion) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     let destroyed = false;
@@ -24,7 +28,7 @@ export function SmoothScroll() {
       cancelAnimationFrame(raf);
       instance?.destroy();
     };
-  }, []);
+  }, [smoothScroll, reducedMotion]);
 
   return null;
 }

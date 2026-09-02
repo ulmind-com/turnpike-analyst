@@ -74,20 +74,20 @@ export function PremiumCard({
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
       className={cn(
-        "group relative h-full rounded-[2rem] border border-white/50 bg-white/45 p-2 backdrop-blur-xl",
+        "group relative h-full rounded-[2rem] border border-border/50 bg-card/45 p-2 backdrop-blur-xl",
         "shadow-[0_18px_50px_-24px_color-mix(in_oklab,var(--primary)_45%,transparent)] transition-shadow duration-300",
         "hover:shadow-[0_26px_60px_-22px_color-mix(in_oklab,var(--primary)_55%,transparent)]",
         className,
       )}
     >
-      <div className="relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-white/40 bg-card/60 p-6 backdrop-blur-2xl">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-border/40 bg-card/60 p-6 backdrop-blur-2xl">
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: mesh }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 origin-bottom scale-y-0 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100 group-hover:opacity-100"
           style={{
             background:
-              "linear-gradient(160deg, color-mix(in oklab, var(--primary) 14%, white), color-mix(in oklab, var(--brand-cyan) 16%, white))",
+              "linear-gradient(160deg, color-mix(in oklab, var(--primary) 14%, var(--background)), color-mix(in oklab, var(--brand-cyan) 16%, var(--background)))",
           }}
         />
         <span aria-hidden className="sheen" />
@@ -101,7 +101,7 @@ export function PremiumCard({
           {icon || bookmarkable ? (
             <div className="flex items-start justify-between gap-3">
               {icon ? (
-                <div className="grid size-14 shrink-0 place-items-center rounded-full bg-white/60 p-1.5 shadow-[0_10px_24px_-12px_color-mix(in_oklab,var(--primary)_70%,transparent)] ring-1 ring-white/60">
+                <div className="grid size-14 shrink-0 place-items-center rounded-full bg-card/60 p-1.5 shadow-[0_10px_24px_-12px_color-mix(in_oklab,var(--primary)_70%,transparent)] ring-1 ring-border/60">
                   <div
                     className={cn(
                       "grid size-full place-items-center rounded-full text-primary-foreground",
@@ -118,7 +118,7 @@ export function PremiumCard({
                 <button
                   type="button"
                   aria-label="Save item"
-                  className="grid size-9 shrink-0 place-items-center rounded-full border border-white/60 bg-white/40 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-border/60 bg-card/40 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
                 >
                   <Bookmark className="size-4" />
                 </button>
@@ -145,7 +145,7 @@ export function PremiumCard({
           <div className="mt-5 flex-1" />
 
           {meta?.length ? (
-            <div className="flex items-stretch divide-x divide-white/50 rounded-full border border-white/50 bg-white/45 px-5 py-3 backdrop-blur">
+            <div className="flex items-stretch divide-x divide-border/50 rounded-full border border-border/50 bg-card/45 px-5 py-3 backdrop-blur">
               {meta.map((item) => (
                 <Meta key={item.label} {...item} />
               ))}

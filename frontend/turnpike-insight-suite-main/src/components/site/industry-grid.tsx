@@ -68,7 +68,7 @@ export function IndustryGrid({
                   "industry-tile group relative isolate flex min-h-48 w-full flex-col overflow-hidden rounded-2xl border text-left transition-all duration-500 hover:shadow-[0_26px_60px_-28px_color-mix(in_oklab,var(--primary)_40%,transparent)] lg:w-auto",
                   isHovered 
                     ? "border-primary/50 bg-[linear-gradient(135deg,var(--primary),var(--brand-cyan))] text-primary-foreground shadow-lg" 
-                    : "border-border/40 bg-white text-slate-800 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.04)]"
+                    : "border-border/40 bg-card text-card-foreground shadow-[0_8px_30px_-12px_rgba(0,0,0,0.04)]"
                 )}
               >
                 <div className={cn(
@@ -93,7 +93,7 @@ export function IndustryGrid({
                   )}>
                     <span className={cn(
                       "font-bold leading-snug tracking-tight transition-all duration-300",
-                      isHovered ? "text-xl text-white mb-2" : "text-sm text-slate-800"
+                      isHovered ? "text-xl text-white mb-2" : "text-sm text-foreground"
                     )}>
                       {item.title}
                     </span>

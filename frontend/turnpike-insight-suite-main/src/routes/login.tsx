@@ -43,7 +43,7 @@ function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (hydrated && isAuthenticated) void navigate({ to: "/dashboard", replace: true });
+    if (hydrated && isAuthenticated) void navigate({ to: "/admin", replace: true });
   }, [hydrated, isAuthenticated, navigate]);
 
   const onSubmit = async (event: FormEvent) => {
@@ -53,7 +53,7 @@ function LoginPage() {
     try {
       const data = await login(email.trim(), password);
       toast.success(`Welcome back, ${data.user?.full_name ?? "operator"}`);
-      void navigate({ to: "/dashboard", replace: true });
+      void navigate({ to: "/admin", replace: true });
     } catch (cause) {
       setError(describeError(cause));
     } finally {
@@ -89,7 +89,8 @@ function LoginPage() {
             Authenticate against the live Turnpike Analyst platform API.
           </p>
 
-          <form onSubmit={onSubmit} className="mt-7 space-y-4">
+          <div className="mt-7">
+            <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="email">Work email</Label>
               <Input
@@ -149,6 +150,8 @@ function LoginPage() {
               )}
             </MagneticButton>
           </form>
+          </div>
+
 
           <p className="mt-6 flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
             <ShieldCheck className="size-3.5" /> Tokens are refreshed automatically and never leave

@@ -38,7 +38,7 @@ function CourseDetailPage() {
 
   return (
     <>
-      <Section className="pt-28">
+      <Section className="pt-8">
         <Link
           to="/training"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
@@ -158,3 +158,4 @@ function CourseDetailPage() {
     </>
   );
 }
+

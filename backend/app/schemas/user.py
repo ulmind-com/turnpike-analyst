@@ -10,6 +10,8 @@ class UserBase(BaseSchema):
     phone: Optional[str] = None
     company: Optional[str] = None
     role: UserRole = UserRole.CLIENT
+    theme: Optional[str] = "light"
+    theme: Optional[str] = "light"
 
 class UserCreate(UserBase):
     password: str = Field(..., min_length=8, description="Password must be at least 8 characters long")
@@ -19,6 +21,8 @@ class UserUpdate(BaseSchema):
     phone: Optional[str] = None
     company: Optional[str] = None
     is_active: Optional[bool] = None
+    theme: Optional[str] = None
+    theme: Optional[str] = None
 
 class UserResponse(UserBase):
     id: PyObjectId = Field(default_factory=lambda: "000000000000000000000000", alias="_id")

@@ -4,8 +4,9 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from app.db.mongodb import get_db
 from app.schemas.lead import BookCallCreate, SubmitNeedsCreate, LeadResponse, LeadStatusUpdate
 from app.models.enums import LeadStatus
+from app.api.deps import require_roles
+from app.models.enums import UserRole
 from app.crud.lead import create_book_call, create_requirement_form, get_leads, update_lead_status
-from app.api.deps import get_current_admin_or_consultant
 
 router = APIRouter()
 
@@ -23,9 +24,9 @@ async def submit_enterprise_requirements(req_in: SubmitNeedsCreate, db: AsyncIOM
 async def list_enterprise_leads(
     status_filter: Optional[LeadStatus] = Query(None, alias="status", description="Filter by lead status"),
     skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=500),
+    limit: int = Query(100, ge=1, le=10000),
     db: AsyncIOMotorDatabase = Depends(get_db),
-    authorized_user: dict = Depends(get_current_admin_or_consultant)
+    current_user: dict = Depends(require_roles([UserRole.ADMIN.value, UserRole.CONSULTANT.value]))
 ):
     leads = await get_leads(db, status=status_filter, skip=skip, limit=limit)
     return leads
@@ -35,7 +36,7 @@ async def patch_lead_status(
     lead_id: str,
     status_in: LeadStatusUpdate,
     db: AsyncIOMotorDatabase = Depends(get_db),
-    authorized_user: dict = Depends(get_current_admin_or_consultant)
+    current_user: dict = Depends(require_roles([UserRole.ADMIN.value, UserRole.CONSULTANT.value]))
 ):
     updated = await update_lead_status(db, lead_id, status_in)
     if not updated:

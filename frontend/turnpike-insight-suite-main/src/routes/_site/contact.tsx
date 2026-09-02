@@ -1,89 +1,77 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Headset, Mail, MapPin, PhoneCall } from "lucide-react";
-import { motion } from "motion/react";
-import { useState, type FormEvent, type ReactNode } from "react";
-import { toast } from "sonner";
-
-import { Reveal } from "@/components/site/parallax";
-import { Section, SectionHeading } from "@/components/site/section";
-import { StatBand } from "@/components/site/stat-band";
-import { WaveDivider } from "@/components/site/wave-divider";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { MapPin, PhoneCall, Mail, ChevronDown, CheckCircle2, Globe, Headset, MessageSquare, Briefcase, Building2, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CONTACT_PHONE, DEPARTMENTS, IMPACT_STATS } from "@/content/site-content";
-import { useBookCall, useSubmitNeeds } from "@/hooks/use-public-api";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { CONTACT_PHONE } from "@/content/site-content";
+import { bookCall } from "@/api/services/leads.api";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import { MEGA_MENUS } from "@/components/site/mega-menu-content";
+
+type ContactSearch = { service?: string };
 
 export const Route = createFileRoute("/_site/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Turnpike Analyst — Book a Consultation" },
-      {
-        name: "description",
-        content:
-          "Reach the Turnpike Analyst technical team, management team or help desk. Book a discovery call or submit your ECM migration requirements.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:title", content: "Contact Turnpike Analyst — Book a Consultation" },
-      {
-        property: "og:description",
-        content:
-          "Tell us about your content estate. Our consultants reply within eight hours or less.",
-      },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
   component: ContactPage,
+  validateSearch: (search: Record<string, unknown>): ContactSearch => ({
+    service: search.service as string | undefined,
+  }),
 });
 
-type Mode = "BOOK_CALL" | "SUBMIT_NEEDS";
-
 function ContactPage() {
-  const bookCall = useBookCall();
-  const submitNeeds = useSubmitNeeds();
-
-  const [mode, setMode] = useState<Mode>("BOOK_CALL");
-  const [department, setDepartment] = useState<string>(DEPARTMENTS[0].value);
+  const search = Route.useSearch();
+  const [pending, setPending] = useState(false);
   const [form, setForm] = useState({
-    full_name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
-    company: "",
-    subject: "",
+    job_title: "",
+    subject: search.service || "",
+    industry: "",
     message: "",
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({});
+  const [errors, setErrors] = useState<Partial<typeof form>>({});
 
-  const pending = bookCall.isPending || submitNeeds.isPending;
+  const servicesList = MEGA_MENUS.services.categories.flatMap(c => c.items);
+  const industriesList = MEGA_MENUS.industries.categories.flatMap(c => c.items);
 
-  const validate = () => {
-    const newErrors: Partial<Record<keyof typeof form, string>> = {};
-    if (!form.full_name) newErrors.full_name = "Please fill out this field.";
-    if (!form.email) newErrors.email = "Please fill out this field.";
-    if (!form.phone) newErrors.phone = "Please fill out this field.";
-    if (!form.company) newErrors.company = "Please fill out this field.";
-    if (!form.subject) newErrors.subject = "Please fill out this field.";
-    if (!form.message) newErrors.message = "Please fill out this field.";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    if (!validate()) return;
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Partial<typeof form> = {};
+    if (!form.first_name.trim()) newErrors.first_name = "First name is required.";
+    if (!form.email.trim()) newErrors.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      newErrors.email = "Invalid email format.";
     
-    const payload = { ...form, type: mode, department };
-    const mutation = mode === "BOOK_CALL" ? bookCall : submitNeeds;
+    const finalSubject = [form.subject && form.subject !== 'None' ? `Service: ${form.subject}` : '', form.industry && form.industry !== 'None' ? `Industry: ${form.industry}` : ''].filter(Boolean).join(" | ");
+    if (!finalSubject) newErrors.subject = "Please select a Service or Industry.";
 
-    mutation.mutate(payload, {
-      onSuccess: () => {
-        toast.success("Received. Our consultants reply within eight hours or less.");
-        setForm({ full_name: "", email: "", phone: "", company: "", subject: "", message: "" });
-        setErrors({});
-      },
-      onError: () => toast.error("Could not submit right now. Please try again."),
+    if (!form.message.trim()) newErrors.message = "Message is required.";
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    
+    setPending(true);
+    bookCall({
+      full_name: `${form.first_name} ${form.last_name}`,
+      email: form.email,
+      phone: form.phone,
+      company: form.job_title,
+      subject: finalSubject,
+      message: form.message,
+    }).then(() => {
+      setPending(false);
+      toast.success("Message sent successfully. We'll be in touch shortly.");
+      setForm({ first_name: "", last_name: "", email: "", phone: "", job_title: "", subject: search.service || "", industry: "", message: "" });
+    }).catch(() => {
+      setPending(false);
+      toast.error("Could not submit right now. Please try again.");
     });
   };
 
@@ -94,251 +82,279 @@ function ContactPage() {
       setForm((prev) => ({ ...prev, [key]: event.target.value }));
       if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
     },
-    // Remove the native 'required' attribute so we can use our custom UI validation
   });
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Grip-style Hero Section */}
-      <section className="relative w-full pt-32 pb-32 lg:pt-48 lg:pb-40 overflow-hidden flex items-center justify-center">
-        {/* Background Image - Education/Tech themed like reference */}
-        <div className="absolute inset-0 z-0">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2850&auto=format&fit=crop" alt="Team collaborating" className="w-full h-full object-cover opacity-80" />
-        </div>
-        {/* Gradient Overlay matching 'Grip' design (green to blue) */}
-        <div className="absolute inset-0 z-10 bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))] mix-blend-multiply opacity-90" />
+    <main className="min-h-screen bg-slate-50 relative pb-24 font-sans">
+      <style>{`
+        .phone-input-container {
+          --PhoneInputCountryFlag-borderColor: transparent;
+        }
+        .phone-input-container .PhoneInputCountry {
+          padding-left: 1rem;
+          padding-right: 0.5rem;
+          margin-right: 0;
+          border-right: 1px solid #e2e8f0;
+        }
+        .PhoneInputInput {
+          background: transparent;
+          border: none;
+          color: #0f172a;
+          outline: none;
+          margin-left: 0.75rem;
+          width: 100%;
+          font-size: 0.875rem;
+        }
+        .PhoneInputInput::placeholder {
+          color: #94a3b8;
+        }
+        .fm-input {
+          background-color: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          height: 48px;
+          padding-left: 1rem;
+          transition: all 0.3s ease;
+        }
+        .fm-input:focus {
+          border-color: var(--color-primary, #10b981);
+          box-shadow: 0 0 0 1px var(--color-primary, #10b981);
+          background-color: #ffffff;
+        }
+        .fm-label {
+          color: #334155;
+          font-weight: 500;
+          font-size: 0.875rem;
+          margin-bottom: 0.5rem;
+        }
+      `}</style>
+
+      {/* Hero Section */}
+      <section className="relative pt-12 pb-24 overflow-hidden bg-slate-50 border-b border-slate-200">
+
         
-        <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8 text-center flex flex-col items-center">
-          <Reveal>
-            <span className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-md mb-8">
-              Contact Us
-            </span>
-            <h1 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-7xl text-balance max-w-4xl drop-shadow-sm">
-              Let's build something great together.
-            </h1>
-            <p className="mt-8 text-lg leading-relaxed text-white max-w-2xl mx-auto drop-shadow-sm font-medium">
-              Ready to unlock the full potential of your content estate? Tell us what you are trying to solve and we will come back with a scoped technical point of view — not a brochure.
-            </p>
-          </Reveal>
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2 text-sm text-slate-500 font-medium mb-8">
+                <a href="/" className="hover:text-primary transition-colors">Home</a>
+                <span className="h-4 w-4 opacity-50 flex items-center justify-center">›</span>
+                <span className="text-slate-900">Contact</span>
+              </div>
+              <h1 className="text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6">
+                Let's Build Something <span className="text-primary">Exceptional</span> Together
+              </h1>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Share your project details and our team will get back to you within 24 hours. We're ready to engineer your next big breakthrough.
+              </p>
+            </div>
+
+            {/* Right Illustration */}
+            <div className="relative hidden lg:flex items-center justify-center">
+              <div className="absolute inset-0 bg-primary/5 rounded-[3rem] transform rotate-3 scale-105" />
+              <img 
+                src="/images/contact_support_illustration.png" 
+                alt="Customer Support Team"
+                className="relative z-10 w-full max-w-[450px] drop-shadow-xl hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Main Content Area */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 pb-16 lg:pb-24 relative z-30 -mt-20">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      {/* Main Form Section */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-16 items-start">
           
-          {/* Left Column: Contact Info & Departments */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-[2rem] p-8 sm:p-10 shadow-xl border border-slate-100">
-              <h3 className="text-xl font-semibold text-slate-900 mb-6">Who do you need to reach?</h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                {DEPARTMENTS.map((team, index) => (
-                  <motion.button
-                    key={team.value}
-                    type="button"
-                    onClick={() => setDepartment(team.value)}
-                    onMouseEnter={() => setDepartment(team.value)}
-                    onFocus={() => setDepartment(team.value)}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }}
-                    whileHover={{ y: -4 }}
-                    className={cn(
-                      "rounded-3xl border p-6 text-left transition-all duration-300 bg-white shadow-sm",
-                      department === team.value
-                        ? "border-primary shadow-md scale-[1.02]"
-                        : "border-transparent",
-                    )}
-                  >
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="flex size-10 shrink-0 place-items-center justify-center rounded-full bg-primary text-primary-foreground">
-                        <Headset className="size-4" />
-                      </span>
-                      <h4 className="font-display text-base font-semibold tracking-tight text-slate-900">{team.title}</h4>
-                    </div>
-                    <p className="text-sm leading-relaxed text-slate-500">{team.body}</p>
-                  </motion.button>
-                ))}
+          {/* Left Column: Value Props */}
+          <div className="pt-4 sticky top-32">
+            <h2 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">Tell Us What You're Building</h2>
+            <p className="text-slate-600 text-lg leading-relaxed mb-12">
+              Whether you need a custom software solution, mobile app, cloud infrastructure, UI/UX design, AI integration, or a dedicated development team — we're here to help transform your ideas into scalable digital products.
+            </p>
+
+            <div className="grid grid-cols-2 gap-y-8 gap-x-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <ChevronDown className="w-5 h-5 text-primary -rotate-90" />
+                </div>
+                <span className="text-slate-900 font-medium">Expert Consultation</span>
               </div>
-            </div>
-
-
-            <div className="mt-8 bg-white rounded-[2rem] p-8 sm:p-10 shadow-xl border border-slate-100 space-y-4">
-              <h3 className="text-xl font-semibold text-slate-900 mb-4">Direct contact</h3>
-              <a
-                href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
-                className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm transition-all hover:-translate-y-1 hover:text-primary hover:border-primary/30"
-              >
-                <div className="grid size-8 place-items-center rounded-full bg-primary/10">
-                  <PhoneCall className="size-4 text-primary" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <ChevronDown className="w-5 h-5 text-primary -rotate-90" />
                 </div>
-                <span className="font-medium text-slate-900">{CONTACT_PHONE}</span>
-              </a>
-              <a
-                href="mailto:info@turnpikeanalyst.com"
-                className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm transition-all hover:-translate-y-1 hover:text-primary hover:border-primary/30"
-              >
-                <div className="grid size-8 place-items-center rounded-full bg-primary/10">
-                  <Mail className="size-4 text-primary" />
+                <span className="text-slate-900 font-medium">Proven Results</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <ChevronDown className="w-5 h-5 text-primary -rotate-90" />
                 </div>
-                <span className="font-medium text-slate-900">info@turnpikeanalyst.com</span>
-              </a>
-              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm">
-                <div className="grid size-8 shrink-0 place-items-center rounded-full bg-primary/10">
-                  <MapPin className="size-4 text-primary" />
+                <span className="text-slate-900 font-medium">Scalable Solutions</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <ChevronDown className="w-5 h-5 text-primary -rotate-90" />
                 </div>
-                <span className="font-medium text-slate-900">Global delivery — on-premises, cloud and hybrid engagements</span>
+                <span className="text-slate-900 font-medium">Full Transparency</span>
               </div>
             </div>
           </div>
 
           {/* Right Column: Form */}
-          <Reveal delay={0.1}>
-            <motion.div
-              className="rounded-[2.5rem] border border-slate-100 bg-white p-8 sm:p-12 shadow-2xl sticky top-24"
-            >
-              <h3 className="text-2xl font-bold mb-6 text-slate-900">Send us a message</h3>
+          <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-8 sm:p-12 border border-slate-100">
+            <h3 className="text-2xl font-bold text-slate-900 mb-8">Let's Connect</h3>
+            <form onSubmit={onSubmit} className="space-y-6">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="first_name" className="fm-label">First Name <span className="text-red-500">*</span></Label>
+                  <Input {...field("first_name")} placeholder="Your First Name" className="fm-input" />
+                  {errors.first_name && <p className="text-xs text-red-500 mt-1">{errors.first_name}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="last_name" className="fm-label">Last Name</Label>
+                  <Input {...field("last_name")} placeholder="Your Last Name" className="fm-input" />
+                </div>
+              </div>
               
-              <div className="mb-8 flex justify-center">
-                  <div className="inline-flex rounded-full border border-white/60 bg-white/50 p-1.5 shadow-sm">
-                    {(
-                      [
-                        { value: "BOOK_CALL", label: "Book a call" },
-                        { value: "SUBMIT_NEEDS", label: "Submit needs" },
-                      ] as const
-                    ).map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => setMode(option.value)}
-                        className={cn(
-                          "relative rounded-full px-6 py-2.5 text-sm font-semibold transition-colors duration-300",
-                          mode === option.value
-                            ? "text-primary-foreground"
-                            : "text-muted-foreground hover:text-primary",
-                        )}
-                      >
-                        {mode === option.value ? (
-                          <motion.span
-                            layoutId="contact-mode-pill"
-                            transition={{ type: "spring", stiffness: 320, damping: 30 }}
-                            className="absolute inset-0 rounded-full bg-[linear-gradient(140deg,var(--primary),var(--brand-cyan))] shadow-md"
-                          />
-                        ) : null}
-                        <span className="relative z-10">{option.label}</span>
-                      </button>
-                    ))}
-                  </div>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="fm-label">Email <span className="text-red-500">*</span></Label>
+                  <Input type="email" {...field("email")} placeholder="your.email@example.com" className="fm-input" />
+                  {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                 </div>
 
-                <form onSubmit={onSubmit} className="grid gap-6 sm:grid-cols-2" noValidate>
-                  <AnimatedField index={0} label="Your name" htmlFor="full_name" error={errors.full_name}>
-                    <Input placeholder="Jane Doe" {...field("full_name")} className={errors.full_name ? "border-red-500/50 focus-visible:ring-red-500/50" : ""} />
-                  </AnimatedField>
-                  <AnimatedField index={1} label="Your email" htmlFor="email" error={errors.email}>
-                    <Input type="email" placeholder="jane@company.com" {...field("email")} className={errors.email ? "border-red-500/50 focus-visible:ring-red-500/50" : ""} />
-                  </AnimatedField>
-                  <AnimatedField index={2} label="Mobile number" htmlFor="phone" error={errors.phone}>
-                    <Input placeholder="+1 555 0100" {...field("phone")} className={errors.phone ? "border-red-500/50 focus-visible:ring-red-500/50" : ""} />
-                  </AnimatedField>
-                  <AnimatedField index={3} label="Company" htmlFor="company" error={errors.company}>
-                    <Input placeholder="Acme Corp" {...field("company")} className={errors.company ? "border-red-500/50 focus-visible:ring-red-500/50" : ""} />
-                  </AnimatedField>
-                  <AnimatedField index={4} label="Subject" htmlFor="subject" wide error={errors.subject}>
-                    <Input placeholder="FileNet to cloud migration" {...field("subject")} className={errors.subject ? "border-red-500/50 focus-visible:ring-red-500/50" : ""} />
-                  </AnimatedField>
-                  <AnimatedField index={5} label="Your message" htmlFor="message" wide error={errors.message}>
-                    <Textarea
-                      rows={4}
-                      placeholder="Current platform, volumes, timelines…"
-                      {...field("message")}
-                      className={errors.message ? "border-red-500/50 focus-visible:ring-red-500/50" : ""}
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="fm-label">Mobile Number</Label>
+                  <div className="fm-input p-0 flex items-center overflow-hidden h-12">
+                    <PhoneInput
+                      international
+                      defaultCountry="US"
+                      value={form.phone}
+                      onChange={(v) => {
+                        setForm(prev => ({ ...prev, phone: v || "" }));
+                        if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }));
+                      }}
+                      className="w-full phone-input-container h-full"
                     />
-                  </AnimatedField>
-                  <motion.div
-                    className="sm:col-span-2 mt-4"
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.45, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Button type="submit" size="lg" disabled={pending} className="group/cta relative overflow-hidden w-full h-14 text-base font-semibold shadow-xl transition-all duration-300 hover:shadow-primary/30">
-                      <span aria-hidden className="sheen" />
-                      <span className="relative">
-                        {pending ? "Submitting…" : mode === "BOOK_CALL" ? "Request discovery call" : "Send requirements"}
-                      </span>
-                    </Button>
-                  </motion.div>
-                </form>
-            </motion.div>
-          </Reveal>
+                  </div>
+                  {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="job_title" className="fm-label">Company / Job Title</Label>
+                <Input {...field("job_title")} placeholder="Your Company Name" className="fm-input" />
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="space-y-2 relative">
+                  <Label htmlFor="subject" className="fm-label">Required Service</Label>
+                  <div className="relative">
+                    <select
+                      id="subject"
+                      value={form.subject}
+                      onChange={(e) => {
+                        setForm(prev => ({ ...prev, subject: e.target.value }));
+                        if (errors.subject) setErrors(prev => ({ ...prev, subject: undefined }));
+                      }}
+                      className="w-full fm-input appearance-none pr-10 cursor-pointer text-slate-700 bg-slate-50"
+                    >
+                      <option value="" disabled hidden>Select Service</option>
+                      <option value="None">None</option>
+                      {servicesList.map((service, idx) => (
+                        <option key={idx} value={service.href.split('/').pop() || service.title}>
+                          {service.title}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 pointer-events-none" />
+                  </div>
+                  {errors.subject && <p className="text-xs text-red-500 mt-1">{errors.subject}</p>}
+                </div>
+
+                <div className="space-y-2 relative">
+                  <Label htmlFor="industry" className="fm-label">Required Industry</Label>
+                  <div className="relative">
+                    <select
+                      id="industry"
+                      value={form.industry}
+                      onChange={(e) => {
+                        setForm(prev => ({ ...prev, industry: e.target.value }));
+                        if (errors.subject) setErrors(prev => ({ ...prev, subject: undefined }));
+                      }}
+                      className="w-full fm-input appearance-none pr-10 cursor-pointer text-slate-700 bg-slate-50"
+                    >
+                      <option value="" disabled hidden>Select Industry</option>
+                      <option value="None">None</option>
+                      {industriesList.map((ind, idx) => (
+                        <option key={idx} value={ind.href.split('/').pop() || ind.title}>
+                          {ind.title}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="message" className="fm-label">Requirements <span className="text-red-500">*</span></Label>
+                <Textarea {...field("message")} placeholder="Briefly describe your project requirements, goals, or challenges..." className="fm-input py-4 min-h-[140px] resize-y bg-slate-50" />
+                {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
+              </div>
+
+              <p className="text-xs text-slate-500 mt-4 leading-relaxed">
+                The information you provide will be used only to respond to your inquiry and discuss your requirements. By submitting this form, you consent to being contacted via email or phone.
+              </p>
+
+              <Button type="submit" disabled={pending} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg h-14 font-bold rounded-lg shadow-lg shadow-primary/25 transition-all mt-6">
+                {pending ? "Submitting..." : "Send Message"}
+              </Button>
+            </form>
+          </div>
+
         </div>
       </div>
 
-      <WaveDivider variant="ribbon" />
+      {/* Contact Channels Grid */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mt-24">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <PhoneCall className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="text-slate-900 font-bold mb-2">General Enquiries</h4>
+            <a href={`tel:${CONTACT_PHONE}`} className="text-slate-500 hover:text-primary transition-colors text-sm">{CONTACT_PHONE}</a>
+          </div>
 
-      <Section className="bg-slate-50 pt-0">
-        <Reveal>
-          <StatBand items={IMPACT_STATS} />
-        </Reveal>
-      </Section>
-    </div>
-  );
-}
+          <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <Briefcase className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="text-slate-900 font-bold mb-2">Send your Resume</h4>
+            <a href="mailto:careers@turnpikeanalyst.com" className="text-slate-500 hover:text-primary transition-colors text-sm">careers@turnpikeanalyst.com</a>
+          </div>
 
-function AnimatedField({
-  index,
-  label,
-  htmlFor,
-  error,
-  wide = false,
-  children,
-}: {
-  index: number;
-  label: string;
-  htmlFor: string;
-  error?: string;
-  wide?: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={cn(
-        "group/field flex flex-col gap-2 rounded-2xl transition-transform duration-300 focus-within:-translate-y-1 relative",
-        wide && "sm:col-span-2",
-      )}
-    >
-      <Label
-        htmlFor={htmlFor}
-        className={cn(
-          "transition-colors duration-300 font-medium",
-          error ? "text-red-500" : "group-focus-within/field:text-primary text-foreground"
-        )}
-      >
-        {label}
-      </Label>
-      <div className={cn(
-        "rounded-xl transition-shadow duration-300",
-        error ? "shadow-[0_0_0_2px_rgba(239,68,68,0.3)]" : "focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--primary)_18%,transparent)]"
-      )}>
-        {children}
+          <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <Mail className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="text-slate-900 font-bold mb-2">Sales Email</h4>
+            <a href="mailto:sales@turnpikeanalyst.com" className="text-slate-500 hover:text-primary transition-colors text-sm">sales@turnpikeanalyst.com</a>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <MessageSquare className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="text-slate-900 font-bold mb-2">General Email</h4>
+            <a href="mailto:info@turnpikeanalyst.com" className="text-slate-500 hover:text-primary transition-colors text-sm">info@turnpikeanalyst.com</a>
+          </div>
+        </div>
       </div>
-      {error && (
-        <motion.p
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="text-red-500 text-xs font-semibold"
-        >
-          {error}
-        </motion.p>
-      )}
-    </motion.div>
+
+    </main>
   );
 }

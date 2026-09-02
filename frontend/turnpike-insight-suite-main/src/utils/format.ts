@@ -8,14 +8,16 @@ export const titleCase = (value?: string | null) =>
 
 export const formatDate = (value?: string | null) => {
   if (!value) return "—";
-  const date = new Date(value);
+  const dateStr = value.endsWith("Z") || value.match(/[+-]\d{2}:\d{2}$/) ? value : value + "Z";
+  const date = new Date(dateStr);
   if (Number.isNaN(date.getTime())) return "—";
   return date.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 };
 
 export const formatDateTime = (value?: string | null) => {
   if (!value) return "—";
-  const date = new Date(value);
+  const dateStr = value.endsWith("Z") || value.match(/[+-]\d{2}:\d{2}$/) ? value : value + "Z";
+  const date = new Date(dateStr);
   if (Number.isNaN(date.getTime())) return "—";
   return date.toLocaleString(undefined, {
     day: "2-digit",
@@ -28,7 +30,8 @@ export const formatDateTime = (value?: string | null) => {
 
 export const relativeTime = (value?: string | null) => {
   if (!value) return "—";
-  const date = new Date(value).getTime();
+  const dateStr = value.endsWith("Z") || value.match(/[+-]\d{2}:\d{2}$/) ? value : value + "Z";
+  const date = new Date(dateStr).getTime();
   if (Number.isNaN(date)) return "—";
   const diff = date - Date.now();
   const units: [Intl.RelativeTimeFormatUnit, number][] = [

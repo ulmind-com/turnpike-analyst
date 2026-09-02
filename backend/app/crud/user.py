@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserUpdate
 from app.core.security import get_password_hash
 from app.models.enums import UserRole
 
@@ -30,3 +30,32 @@ async def create_user(db: AsyncIOMotorDatabase, user_in: UserCreate, role: UserR
     result = await db.users.insert_one(user_dict)
     user_dict["_id"] = result.inserted_id
     return user_dict
+
+async def get_users(db: AsyncIOMotorDatabase, skip: int = 0, limit: int = 100) -> List[Dict[str, Any]]:
+    cursor = db.users.find({}).sort("created_at", -1).skip(skip).limit(limit)
+    return await cursor.to_list(length=limit)
+
+async def update_user(db: AsyncIOMotorDatabase, user_id: str, user_in: UserUpdate) -> Optional[Dict[str, Any]]:
+    if not ObjectId.is_valid(user_id):
+        return None
+    
+    update_data = user_in.model_dump(exclude_unset=True)
+    if not update_data:
+        return await get_user_by_id(db, user_id)
+        
+    result = await db.users.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0 and result.matched_count == 0:
+        return None
+        
+    return await get_user_by_id(db, user_id)
+
+async def delete_user(db: AsyncIOMotorDatabase, user_id: str) -> bool:
+    if not ObjectId.is_valid(user_id):
+        return False
+        
+    result = await db.users.delete_one({"_id": ObjectId(user_id)})
+    return result.deleted_count > 0

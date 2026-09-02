@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, ChevronRight, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 
@@ -41,16 +41,21 @@ function TrainingPage() {
   const items = (courses.data ?? []).filter((course) => level === "all" || course.level === level);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-brand-cyan/30 px-4 md:px-8 py-8 pt-32">
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-brand-cyan/30 px-4 md:px-8 py-8 pt-8">
       {/* Hero Section Container */}
       <section className="mx-auto max-w-[1400px]">
+        <div className="flex items-center gap-2 text-sm mb-6 px-4">
+          <Link to="/" className="text-slate-600 hover:text-slate-900 transition-colors">Home</Link>
+          <ChevronRight className="w-4 h-4 text-slate-400" />
+          <span className="text-slate-600 hover:text-slate-900 transition-colors cursor-pointer">Training & Courses</span>
+          <ChevronRight className="w-4 h-4 text-slate-400" />
+          <span className="text-slate-900">Show Me All Available Training</span>
+        </div>
+        
         <div className="bg-slate-950 rounded-[3rem] p-10 md:p-16 lg:p-24 relative overflow-hidden flex flex-col lg:flex-row items-center gap-12 shadow-2xl">
           
           <Reveal className="flex-1 relative z-10 w-full">
             <div className="flex flex-col mb-8">
-              <span className="text-white font-bold uppercase tracking-widest text-sm mb-4">
-                Academy
-              </span>
               <h1 className="font-display text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl leading-[1.1]">
                 <span className="whitespace-nowrap">Practitioner-led</span> <br />
                 training tracks
@@ -72,12 +77,7 @@ function TrainingPage() {
             </motion.div>
           </Reveal>
           
-          {/* Tagline pills like the reference image */}
-          <div className="absolute bottom-10 left-10 lg:left-24 hidden md:flex items-center gap-4 bg-slate-900 px-6 py-4 rounded-full border border-slate-800">
-            <span className="px-5 py-2 rounded-full border border-slate-700 text-slate-300 text-sm tracking-wide">Practitioner-led</span>
-            <span className="px-5 py-2 rounded-full border border-slate-700 text-slate-300 text-sm tracking-wide">Live Regulated</span>
-            <span className="px-5 py-2 rounded-full border border-slate-700 text-slate-300 text-sm tracking-wide">Enterprise</span>
-          </div>
+
         </div>
       </section>
 

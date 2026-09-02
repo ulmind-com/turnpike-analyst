@@ -15,6 +15,18 @@ import { PremiumCursor } from "@/components/effects/premium-cursor";
 import { SmoothScroll } from "@/components/effects/smooth-scroll";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { usePrefs } from "@/hooks/use-prefs";
+
+function PrefsSync() {
+  const prefs = usePrefs();
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", prefs.dark);
+    document.documentElement.dataset.reducedMotion = String(prefs.reducedMotion);
+    document.documentElement.dataset.smoothScroll = String(prefs.smoothScroll);
+    document.documentElement.dataset.customCursor = String(prefs.customCursor);
+  }, [prefs]);
+  return null;
+}
 
 
 function NotFoundComponent() {
@@ -120,11 +132,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
@@ -138,8 +150,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider delayDuration={150}>
-        <SmoothScroll />
+        <PrefsSync />
+        {/* <SmoothScroll /> */}
         <PremiumCursor />
+        <script dangerouslySetInnerHTML={{ __html: `if (localStorage.getItem('app-version') !== '2') { localStorage.setItem('app-version', '2'); window.location.reload(true); }` }} />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <Toaster position="top-right" richColors closeButton />

@@ -39,7 +39,7 @@ export function TechStackExplorer({ stack }: { stack: { category: string; items:
                 "group relative isolate flex min-h-[100px] lg:min-h-full w-full flex-col overflow-hidden rounded-[2rem] border text-left transition-all duration-500 lg:w-auto cursor-default",
                 isHovered 
                   ? "border-transparent bg-[linear-gradient(135deg,var(--primary),var(--brand-cyan))] text-white shadow-2xl" 
-                  : "border-slate-200 bg-white text-slate-800 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.04)] hover:bg-slate-50"
+                  : "border-border/40 bg-card text-card-foreground shadow-[0_8px_30px_-12px_rgba(0,0,0,0.04)] hover:bg-accent/50"
               )}
             >
               <div className={cn(
@@ -63,7 +63,7 @@ export function TechStackExplorer({ stack }: { stack: { category: string; items:
                   
                   <span className={cn(
                     "font-bold leading-snug tracking-tight transition-all duration-300",
-                    isHovered ? "text-xl text-white whitespace-nowrap" : "text-sm text-slate-800 break-words text-center"
+                    isHovered ? "text-xl text-white whitespace-nowrap" : "text-sm text-foreground break-words text-center"
                   )}>
                     {cat.category}
                   </span>

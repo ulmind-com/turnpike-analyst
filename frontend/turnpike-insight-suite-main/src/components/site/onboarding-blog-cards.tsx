@@ -32,7 +32,7 @@ export function OnboardingBlogCards({ blogs, loading }: { blogs: any[], loading?
   const icons = [LayoutDashboard, Mail, Calendar, Search];
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#38b292] py-24 isolate">
+    <div className="relative w-full overflow-hidden bg-[#38b292] dark:bg-muted/20 py-24 isolate">
       
       {/* Background Decorative Patterns */}
       <MandalaPattern className="absolute -top-40 -left-20 w-[500px] h-[500px] pointer-events-none" />
@@ -42,13 +42,13 @@ export function OnboardingBlogCards({ blogs, loading }: { blogs: any[], loading?
         
         {/* Header Section */}
         <div className="text-center mb-16 flex flex-col items-center">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-[#38b292]/50">
-            <Info className="size-5 text-[#38b292] fill-[#38b292]" />
+          <div className="w-12 h-12 bg-white dark:bg-card rounded-full flex items-center justify-center mb-6 shadow-lg shadow-[#38b292]/50 dark:shadow-none dark:border dark:border-border">
+            <Info className="size-5 text-[#38b292] fill-[#38b292] dark:text-primary dark:fill-primary" />
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white dark:text-foreground mb-4 tracking-tight">
             Field Notes & Insights
           </h2>
-          <p className="text-white/80 font-medium max-w-xl mx-auto text-sm md:text-base leading-relaxed">
+          <p className="text-white/80 dark:text-muted-foreground font-medium max-w-xl mx-auto text-sm md:text-base leading-relaxed">
             Editorial published through the Turnpike Analyst content pipeline, introducing the main features and insights before you start using it.
           </p>
         </div>
@@ -65,16 +65,16 @@ export function OnboardingBlogCards({ blogs, loading }: { blogs: any[], loading?
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: i * 0.15 }}
-                className="bg-white rounded-[2.5rem] p-7 flex flex-col h-full min-h-[500px] shadow-2xl shadow-black/10 group relative"
+                className="bg-card border border-transparent dark:border-border rounded-[2.5rem] p-7 flex flex-col h-full min-h-[500px] shadow-2xl shadow-black/10 group relative"
               >
                 
                 {/* Floating Graphic Area */}
                 <div className="h-48 relative flex items-center justify-center mt-2 mb-6 w-full">
                   {/* Faint background circle */}
-                  <div className="absolute w-32 h-32 bg-[#e8f6f2] rounded-full transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute w-32 h-32 bg-[#e8f6f2] dark:bg-primary/10 rounded-full transition-transform duration-700 group-hover:scale-110" />
                   
                   {/* Main central icon */}
-                  <div className="relative z-10 w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center border border-[#e8f6f2] group-hover:-translate-y-2 transition-transform duration-500">
+                  <div className="relative z-10 w-16 h-16 bg-background rounded-2xl shadow-lg flex items-center justify-center border border-[#e8f6f2] dark:border-border group-hover:-translate-y-2 transition-transform duration-500">
                     <IconComponent className="size-8 text-[#38b292]" />
                   </div>
 
@@ -96,11 +96,11 @@ export function OnboardingBlogCards({ blogs, loading }: { blogs: any[], loading?
                   </motion.div>
                 </div>
 
-                <h3 className="font-display font-bold text-[1.15rem] text-slate-800 text-center mb-3 leading-snug px-2">
+                <h3 className="font-display font-bold text-[1.15rem] text-foreground text-center mb-3 leading-snug px-2">
                   {post.title}
                 </h3>
                 
-                <p className="text-xs text-slate-500 mb-8 line-clamp-3 text-center px-4 leading-relaxed font-medium">
+                <p className="text-xs text-muted-foreground mb-8 line-clamp-3 text-center px-4 leading-relaxed font-medium">
                   {post.summary}
                 </p>
 
@@ -113,7 +113,7 @@ export function OnboardingBlogCards({ blogs, loading }: { blogs: any[], loading?
 
                 {/* Simulated Modal Buttons */}
                 <div className="flex flex-col gap-3">
-                  <div className="w-full py-3.5 bg-transparent border-2 border-slate-100 text-slate-400 text-sm font-bold rounded-[1rem] text-center transition-colors hover:bg-slate-50 hover:text-slate-500 cursor-default">
+                  <div className="w-full py-3.5 bg-transparent border-2 border-border text-muted-foreground text-sm font-bold rounded-[1rem] text-center transition-colors hover:bg-muted/50 hover:text-foreground cursor-default">
                     Bookmark
                   </div>
                   <Link 

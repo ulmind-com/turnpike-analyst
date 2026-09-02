@@ -113,10 +113,10 @@ export function WhyChoose({ items, onCta }: { items: readonly { title: string; b
       <AnimatedBackground />
       
       <div className="relative z-10 text-center max-w-3xl mb-20 px-4">
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-6 uppercase">
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground mb-6 uppercase">
           What Makes Us Different
         </h2>
-        <p className="text-lg text-slate-500 leading-relaxed">
+        <p className="text-lg text-muted-foreground leading-relaxed">
           The constraints are different. Budget is finite. Time to market matters. And the first version needs to be good enough to win customers and bad enough to be affordable to build. Getting this balance right is what we do.
         </p>
       </div>

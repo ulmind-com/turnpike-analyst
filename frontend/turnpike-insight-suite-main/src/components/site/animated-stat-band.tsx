@@ -47,7 +47,7 @@ function StatTile({ stat, index }: { stat: Stat; index: number }) {
         style={reduced ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
         whileHover={{ scale: 1.02 }}
         className={cn(
-          "group relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 p-8 text-center backdrop-blur-xl",
+          "group relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/70 p-8 text-center backdrop-blur-xl",
           "shadow-[0_20px_50px_-28px_color-mix(in_oklab,var(--primary)_60%,transparent)]",
           "transition-shadow duration-500 hover:shadow-[0_34px_70px_-26px_color-mix(in_oklab,var(--primary)_70%,transparent)]",
         )}

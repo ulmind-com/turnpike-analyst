@@ -54,7 +54,7 @@ export function AppTopbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) 
 
       <div className="min-w-0">
         <nav aria-label="Breadcrumb" className="text-[11px] text-muted-foreground">
-          <Link to="/dashboard" className="hover:text-foreground">
+          <Link to="/admin" className="hover:text-foreground">
             Console
           </Link>
           <span className="mx-1.5">/</span>
@@ -82,13 +82,13 @@ export function AppTopbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) 
           </PopoverTrigger>
           <PopoverContent align="end" className="w-56 p-1.5">
             <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Quick actions</p>
-            <Link to="/services" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
+            <Link to="/admin/services" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
               New service
             </Link>
-            <Link to="/blogs" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
+            <Link to="/admin/blogs" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
               Publish article
             </Link>
-            <Link to="/leads" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
+            <Link to="/admin/leads" className="block rounded-lg px-2 py-2 text-sm hover:bg-accent">
               Triage leads
             </Link>
           </PopoverContent>
@@ -111,7 +111,7 @@ export function AppTopbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) 
               recentLeads.map((lead) => (
                 <Link
                   key={lead._id}
-                  to="/leads"
+                  to="/admin/leads"
                   className="block rounded-lg px-2 py-2 text-sm hover:bg-accent"
                 >
                   <span className="font-medium">{lead.full_name}</span>
@@ -138,34 +138,34 @@ export function AppTopbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
-              className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/60 py-1 pl-1 pr-2.5 backdrop-blur transition-colors hover:bg-accent"
+              className="flex items-center gap-3 rounded-2xl border border-border/60 bg-background/60 py-1.5 pl-1.5 pr-4 backdrop-blur transition-colors hover:bg-accent"
               aria-label="Account menu"
             >
-              <span className="grid size-7 place-items-center rounded-lg gradient-brand text-[11px] font-semibold text-primary-foreground">
-                {initials || <UserIcon className="size-3.5" />}
+              <span className="grid size-10 place-items-center rounded-xl gradient-brand text-[13px] font-bold text-primary-foreground">
+                {initials || <UserIcon className="size-4" />}
               </span>
               <span className="hidden text-left sm:block">
-                <span className="block max-w-28 truncate text-xs font-medium leading-tight">
+                <span className="block max-w-32 truncate text-sm font-semibold leading-tight">
                   {user?.full_name ?? "Account"}
                 </span>
-                <span className="block text-[10px] leading-tight text-muted-foreground">
+                <span className="block text-xs leading-tight text-muted-foreground mt-0.5">
                   {titleCase(user?.role)}
                 </span>
               </span>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel className="truncate">{user?.email}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link to="/profile">Profile</Link>
+          <DropdownMenuContent align="end" className="w-64 p-2">
+            <DropdownMenuLabel className="truncate text-base font-semibold py-2">{user?.email}</DropdownMenuLabel>
+            <DropdownMenuSeparator className="my-1" />
+            <DropdownMenuItem asChild className="text-sm py-2.5 cursor-pointer">
+              <Link to="/admin/profile">Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/settings">Settings</Link>
+            <DropdownMenuItem asChild className="text-sm py-2.5 cursor-pointer">
+              <Link to="/admin/settings">Settings</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout} className="text-destructive">
-              <LogOut className="size-4" /> Sign out
+            <DropdownMenuSeparator className="my-1" />
+            <DropdownMenuItem onClick={logout} className="text-destructive text-sm py-2.5 cursor-pointer font-medium">
+              <LogOut className="size-4 mr-2" /> Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -67,7 +67,7 @@ export function AnimatedBlogCards({ blogs, loading }: { blogs: any[], loading?: 
             className="mt-12 mb-auto z-10 relative"
           >
              {/* Simulating a 3D object container */}
-             <div className="w-32 h-32 bg-white/90 backdrop-blur-md rounded-[2.5rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-white flex items-center justify-center rotate-3 group-hover:rotate-0 transition-transform duration-500">
+             <div className="w-32 h-32 bg-card/90 backdrop-blur-md rounded-[2.5rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-border flex items-center justify-center rotate-3 group-hover:rotate-0 transition-transform duration-500">
                {visualConfig[i].icon}
              </div>
              

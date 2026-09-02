@@ -98,13 +98,13 @@ export function StaggeredBlogCards({ blogs, loading }: { blogs: any[], loading?:
                 <motion.div
                   animate={{ y: [0, -12, 0] }}
                   transition={{ duration: 4 + (i % 2), repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
-                  className="bg-white rounded-[1.5rem] p-6 sm:p-7 flex flex-col h-full min-h-[420px] shadow-[0_20px_50px_-12px_rgba(0,120,130,0.12)] border border-white hover:shadow-[0_25px_60px_-12px_rgba(0,120,130,0.2)] transition-shadow duration-300"
+                  className="bg-card rounded-[1.5rem] p-6 sm:p-7 flex flex-col h-full min-h-[420px] shadow-[0_20px_50px_-12px_rgba(0,120,130,0.12)] border border-border hover:shadow-[0_25px_60px_-12px_rgba(0,120,130,0.2)] transition-shadow duration-300"
                 >
-                  <h3 className="font-display font-medium text-[1.1rem] text-slate-800 text-center mb-4 leading-snug">
+                  <h3 className="font-display font-medium text-[1.1rem] text-foreground text-center mb-4 leading-snug">
                     {post.title}
                   </h3>
                   
-                  <p className="text-sm text-slate-500 mb-8 line-clamp-3 text-center">
+                  <p className="text-sm text-muted-foreground mb-8 line-clamp-3 text-center">
                     {post.summary}
                   </p>
 
@@ -112,17 +112,17 @@ export function StaggeredBlogCards({ blogs, loading }: { blogs: any[], loading?:
                   <div className="flex justify-between gap-4 mb-8 mt-auto px-1">
                     <div className="flex-1 overflow-hidden">
                       <p className="text-[9px] font-bold text-[#0fa9a3] uppercase tracking-wider mb-2 truncate">Author</p>
-                      <div className="text-[13px] font-medium text-slate-700 border-b border-slate-200 pb-1 truncate">{post.author}</div>
+                      <div className="text-[13px] font-medium text-muted-foreground border-b border-border/50 pb-1 truncate">{post.author}</div>
                     </div>
                     <div className="flex-1 overflow-hidden">
                       <p className="text-[9px] font-bold text-[#0fa9a3] uppercase tracking-wider mb-2 truncate">Category</p>
-                      <div className="text-[13px] font-medium text-slate-700 border-b border-slate-200 pb-1 truncate">{humanise(post.category)}</div>
+                      <div className="text-[13px] font-medium text-muted-foreground border-b border-border/50 pb-1 truncate">{humanise(post.category)}</div>
                     </div>
                   </div>
 
                   {/* Simulated Modal Buttons */}
                   <div className="flex gap-2.5 mt-auto">
-                    <div className="flex-1 py-3 bg-slate-100/80 text-slate-500 text-xs font-semibold rounded-[0.8rem] text-center transition-colors hover:bg-slate-200 cursor-default">
+                    <div className="flex-1 py-3 bg-muted/50 text-foreground text-xs font-semibold rounded-[0.8rem] text-center transition-colors hover:bg-muted/80 cursor-default">
                       Bookmark
                     </div>
                     <Link 

@@ -6,7 +6,7 @@ import { TurnpikeLogo } from "@/components/site/turnpike-logo";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-[#0b0c10] text-slate-300 border-t border-white/10 pt-16 pb-8 px-5 sm:px-8 font-sans">
+    <footer className="relative z-10 bg-[#0b0c10] text-slate-300 border-t border-white/10 pt-16 pb-8 px-5 sm:px-8 font-sans">
       <div className="mx-auto w-full max-w-7xl">
         
         {/* Top Section */}
@@ -18,7 +18,7 @@ export function SiteFooter() {
               <TurnpikeLogo dark={true} />
             </div>
             <p className="text-sm leading-relaxed mb-6 max-w-sm text-slate-400">
-              We design, build, and scale enterprise digital products that move businesses forward. Turnpike Analyst partners with ambitious teams to drive meaningful digital transformation through scalable, high-impact technology.
+              We design, build, and scale enterprise solutions that move businesses forward. Turnpike Analyst partners with ambitious teams to drive meaningful digital transformation through scalable, high-impact technology.
             </p>
             <div className="flex items-center gap-2 text-yellow-500 mb-2">
               {[1,2,3,4,5].map(i => <span key={i}>★</span>)}
@@ -82,7 +82,7 @@ export function SiteFooter() {
               <li><Link to="/blog" className="hover:text-white transition-colors">Case Studies</Link></li>
               <li><Link to="/blog" className="hover:text-white transition-colors">Blog & Insights</Link></li>
               <li><Link to="/training" className="hover:text-white transition-colors">Academy</Link></li>
-              <li><Link to="/products" className="hover:text-white transition-colors">Products</Link></li>
+
             </ul>
           </div>
           <div>

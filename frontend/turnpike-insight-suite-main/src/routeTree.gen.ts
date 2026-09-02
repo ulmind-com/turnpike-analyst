@@ -9,139 +9,61 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as SiteRouteImport } from './routes/_site'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AuthenticatedActivityRouteImport } from './routes/_authenticated/activity'
-import { Route as AuthenticatedBlogsRouteImport } from './routes/_authenticated/blogs'
-import { Route as AuthenticatedBookCallsRouteImport } from './routes/_authenticated/book-calls'
-import { Route as AuthenticatedCmsRouteImport } from './routes/_authenticated/cms'
-import { Route as AuthenticatedCoursesRouteImport } from './routes/_authenticated/courses'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedDemoRequestsRouteImport } from './routes/_authenticated/demo-requests'
-import { Route as AuthenticatedEnterpriseRequirementsRouteImport } from './routes/_authenticated/enterprise-requirements'
-import { Route as AuthenticatedInstructorApplicationsRouteImport } from './routes/_authenticated/instructor-applications'
-import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
-import { Route as AuthenticatedNewsletterRouteImport } from './routes/_authenticated/newsletter'
-import { Route as AuthenticatedProductsRouteImport } from './routes/_authenticated/products'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
-import { Route as AuthenticatedServicesRouteImport } from './routes/_authenticated/services'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedSystemHealthRouteImport } from './routes/_authenticated/system-health'
-import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/users'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteAboutRouteImport } from './routes/_site/about'
+import { Route as SiteBlogPostsRouteImport } from './routes/_site/blog-posts'
+import { Route as SiteCareerRouteImport } from './routes/_site/career'
 import { Route as SiteContactRouteImport } from './routes/_site/contact'
+import { Route as SiteFaqRouteImport } from './routes/_site/faq'
+import { Route as SiteOurClientsRouteImport } from './routes/_site/our-clients'
+import { Route as SiteSoftwareSupportRouteImport } from './routes/_site/software-support'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminActivityRouteImport } from './routes/admin/activity'
+import { Route as AdminBlogsRouteImport } from './routes/admin/blogs'
+import { Route as AdminBookCallsRouteImport } from './routes/admin/book-calls'
+import { Route as AdminCareersRouteImport } from './routes/admin/careers'
+import { Route as AdminCmsRouteImport } from './routes/admin/cms'
+import { Route as AdminConsultantsRouteImport } from './routes/admin/consultants'
+import { Route as AdminCoursesRouteImport } from './routes/admin/courses'
+import { Route as AdminDemoRequestsRouteImport } from './routes/admin/demo-requests'
+import { Route as AdminDigitalContentRouteImport } from './routes/admin/digital-content'
+import { Route as AdminFaqsRouteImport } from './routes/admin/faqs'
+import { Route as AdminIndustriesRouteImport } from './routes/admin/industries'
+import { Route as AdminInstructorApplicationsRouteImport } from './routes/admin/instructor-applications'
+import { Route as AdminLeadsRouteImport } from './routes/admin/leads'
+import { Route as AdminNewsletterRouteImport } from './routes/admin/newsletter'
+import { Route as AdminProfileRouteImport } from './routes/admin/profile'
+import { Route as AdminServicesRouteImport } from './routes/admin/services'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminSystemHealthRouteImport } from './routes/admin/system-health'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as SiteBlogPostsSlugRouteImport } from './routes/_site/blog-posts.$slug'
 import { Route as SiteBlogIndexRouteImport } from './routes/_site/blog.index'
 import { Route as SiteBlogSlugRouteImport } from './routes/_site/blog.$slug'
-import { Route as SiteProductsIndexRouteImport } from './routes/_site/products.index'
-import { Route as SiteProductsSlugRouteImport } from './routes/_site/products.$slug'
+import { Route as SiteIndustriesSlugRouteImport } from './routes/_site/industries.$slug'
 import { Route as SiteServicesIndexRouteImport } from './routes/_site/services.index'
 import { Route as SiteServicesSlugRouteImport } from './routes/_site/services.$slug'
 import { Route as SiteTrainingIndexRouteImport } from './routes/_site/training.index'
 import { Route as SiteTrainingSlugRouteImport } from './routes/_site/training.$slug'
+import { Route as AdminClientsIndexRouteImport } from './routes/admin/clients/index'
+import { Route as AdminClientsIndustryNameRouteImport } from './routes/admin/clients.$industryName'
 
-const AuthenticatedRoute = AuthenticatedRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SiteRoute = SiteRouteImport.update({
   id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedActivityRoute = AuthenticatedActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedBlogsRoute = AuthenticatedBlogsRouteImport.update({
-  id: '/blogs',
-  path: '/blogs',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedBookCallsRoute = AuthenticatedBookCallsRouteImport.update({
-  id: '/book-calls',
-  path: '/book-calls',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedCmsRoute = AuthenticatedCmsRouteImport.update({
-  id: '/cms',
-  path: '/cms',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedCoursesRoute = AuthenticatedCoursesRouteImport.update({
-  id: '/courses',
-  path: '/courses',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedDemoRequestsRoute =
-  AuthenticatedDemoRequestsRouteImport.update({
-    id: '/demo-requests',
-    path: '/demo-requests',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedEnterpriseRequirementsRoute =
-  AuthenticatedEnterpriseRequirementsRouteImport.update({
-    id: '/enterprise-requirements',
-    path: '/enterprise-requirements',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedInstructorApplicationsRoute =
-  AuthenticatedInstructorApplicationsRouteImport.update({
-    id: '/instructor-applications',
-    path: '/instructor-applications',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedNewsletterRoute = AuthenticatedNewsletterRouteImport.update({
-  id: '/newsletter',
-  path: '/newsletter',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedProductsRoute = AuthenticatedProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedServicesRoute = AuthenticatedServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedSystemHealthRoute =
-  AuthenticatedSystemHealthRouteImport.update({
-    id: '/system-health',
-    path: '/system-health',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
@@ -153,10 +75,141 @@ const SiteAboutRoute = SiteAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteBlogPostsRoute = SiteBlogPostsRouteImport.update({
+  id: '/blog-posts',
+  path: '/blog-posts',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteCareerRoute = SiteCareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteContactRoute = SiteContactRouteImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => SiteRoute,
+} as any)
+const SiteFaqRoute = SiteFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteOurClientsRoute = SiteOurClientsRouteImport.update({
+  id: '/our-clients',
+  path: '/our-clients',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSoftwareSupportRoute = SiteSoftwareSupportRouteImport.update({
+  id: '/software-support',
+  path: '/software-support',
+  getParentRoute: () => SiteRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogsRoute = AdminBlogsRouteImport.update({
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBookCallsRoute = AdminBookCallsRouteImport.update({
+  id: '/book-calls',
+  path: '/book-calls',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCareersRoute = AdminCareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCmsRoute = AdminCmsRouteImport.update({
+  id: '/cms',
+  path: '/cms',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConsultantsRoute = AdminConsultantsRouteImport.update({
+  id: '/consultants',
+  path: '/consultants',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCoursesRoute = AdminCoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDemoRequestsRoute = AdminDemoRequestsRouteImport.update({
+  id: '/demo-requests',
+  path: '/demo-requests',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDigitalContentRoute = AdminDigitalContentRouteImport.update({
+  id: '/digital-content',
+  path: '/digital-content',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFaqsRoute = AdminFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIndustriesRoute = AdminIndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInstructorApplicationsRoute =
+  AdminInstructorApplicationsRouteImport.update({
+    id: '/instructor-applications',
+    path: '/instructor-applications',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProfileRoute = AdminProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSystemHealthRoute = AdminSystemHealthRouteImport.update({
+  id: '/system-health',
+  path: '/system-health',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const SiteBlogPostsSlugRoute = SiteBlogPostsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SiteBlogPostsRoute,
 } as any)
 const SiteBlogIndexRoute = SiteBlogIndexRouteImport.update({
   id: '/blog/',
@@ -168,14 +221,9 @@ const SiteBlogSlugRoute = SiteBlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => SiteRoute,
 } as any)
-const SiteProductsIndexRoute = SiteProductsIndexRouteImport.update({
-  id: '/products/',
-  path: '/products/',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteProductsSlugRoute = SiteProductsSlugRouteImport.update({
-  id: '/products/$slug',
-  path: '/products/$slug',
+const SiteIndustriesSlugRoute = SiteIndustriesSlugRouteImport.update({
+  id: '/industries/$slug',
+  path: '/industries/$slug',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteServicesIndexRoute = SiteServicesIndexRouteImport.update({
@@ -198,217 +246,294 @@ const SiteTrainingSlugRoute = SiteTrainingSlugRouteImport.update({
   path: '/training/$slug',
   getParentRoute: () => SiteRoute,
 } as any)
+const AdminClientsIndexRoute = AdminClientsIndexRouteImport.update({
+  id: '/clients/',
+  path: '/clients/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminClientsIndustryNameRoute =
+  AdminClientsIndustryNameRouteImport.update({
+    id: '/clients/$industryName',
+    path: '/clients/$industryName',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
-  '/activity': typeof AuthenticatedActivityRoute
-  '/blogs': typeof AuthenticatedBlogsRoute
-  '/book-calls': typeof AuthenticatedBookCallsRoute
-  '/cms': typeof AuthenticatedCmsRoute
-  '/courses': typeof AuthenticatedCoursesRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
-  '/demo-requests': typeof AuthenticatedDemoRequestsRoute
-  '/enterprise-requirements': typeof AuthenticatedEnterpriseRequirementsRoute
-  '/instructor-applications': typeof AuthenticatedInstructorApplicationsRoute
-  '/leads': typeof AuthenticatedLeadsRoute
-  '/newsletter': typeof AuthenticatedNewsletterRoute
-  '/products': typeof AuthenticatedProductsRoute
-  '/profile': typeof AuthenticatedProfileRoute
-  '/services': typeof AuthenticatedServicesRoute
-  '/settings': typeof AuthenticatedSettingsRoute
-  '/system-health': typeof AuthenticatedSystemHealthRoute
-  '/users': typeof AuthenticatedUsersRoute
   '/about': typeof SiteAboutRoute
+  '/blog-posts': typeof SiteBlogPostsRouteWithChildren
+  '/career': typeof SiteCareerRoute
   '/contact': typeof SiteContactRoute
+  '/faq': typeof SiteFaqRoute
+  '/our-clients': typeof SiteOurClientsRoute
+  '/software-support': typeof SiteSoftwareSupportRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/book-calls': typeof AdminBookCallsRoute
+  '/admin/careers': typeof AdminCareersRoute
+  '/admin/cms': typeof AdminCmsRoute
+  '/admin/consultants': typeof AdminConsultantsRoute
+  '/admin/courses': typeof AdminCoursesRoute
+  '/admin/demo-requests': typeof AdminDemoRequestsRoute
+  '/admin/digital-content': typeof AdminDigitalContentRoute
+  '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/industries': typeof AdminIndustriesRoute
+  '/admin/instructor-applications': typeof AdminInstructorApplicationsRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/profile': typeof AdminProfileRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/system-health': typeof AdminSystemHealthRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/': typeof AdminIndexRoute
+  '/blog-posts/$slug': typeof SiteBlogPostsSlugRoute
   '/blog/$slug': typeof SiteBlogSlugRoute
-  '/products/$slug': typeof SiteProductsSlugRoute
+  '/industries/$slug': typeof SiteIndustriesSlugRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/training/$slug': typeof SiteTrainingSlugRoute
+  '/admin/clients/$industryName': typeof AdminClientsIndustryNameRoute
   '/blog/': typeof SiteBlogIndexRoute
-  '/products/': typeof SiteProductsIndexRoute
   '/services/': typeof SiteServicesIndexRoute
   '/training/': typeof SiteTrainingIndexRoute
+  '/admin/clients/': typeof AdminClientsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof SiteIndexRoute
   '/login': typeof LoginRoute
-  '/activity': typeof AuthenticatedActivityRoute
-  '/blogs': typeof AuthenticatedBlogsRoute
-  '/book-calls': typeof AuthenticatedBookCallsRoute
-  '/cms': typeof AuthenticatedCmsRoute
-  '/courses': typeof AuthenticatedCoursesRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
-  '/demo-requests': typeof AuthenticatedDemoRequestsRoute
-  '/enterprise-requirements': typeof AuthenticatedEnterpriseRequirementsRoute
-  '/instructor-applications': typeof AuthenticatedInstructorApplicationsRoute
-  '/leads': typeof AuthenticatedLeadsRoute
-  '/newsletter': typeof AuthenticatedNewsletterRoute
-  '/products': typeof SiteProductsIndexRoute
-  '/profile': typeof AuthenticatedProfileRoute
-  '/services': typeof SiteServicesIndexRoute
-  '/settings': typeof AuthenticatedSettingsRoute
-  '/system-health': typeof AuthenticatedSystemHealthRoute
-  '/users': typeof AuthenticatedUsersRoute
   '/about': typeof SiteAboutRoute
+  '/blog-posts': typeof SiteBlogPostsRouteWithChildren
+  '/career': typeof SiteCareerRoute
   '/contact': typeof SiteContactRoute
+  '/faq': typeof SiteFaqRoute
+  '/our-clients': typeof SiteOurClientsRoute
+  '/software-support': typeof SiteSoftwareSupportRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/book-calls': typeof AdminBookCallsRoute
+  '/admin/careers': typeof AdminCareersRoute
+  '/admin/cms': typeof AdminCmsRoute
+  '/admin/consultants': typeof AdminConsultantsRoute
+  '/admin/courses': typeof AdminCoursesRoute
+  '/admin/demo-requests': typeof AdminDemoRequestsRoute
+  '/admin/digital-content': typeof AdminDigitalContentRoute
+  '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/industries': typeof AdminIndustriesRoute
+  '/admin/instructor-applications': typeof AdminInstructorApplicationsRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/profile': typeof AdminProfileRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/system-health': typeof AdminSystemHealthRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/': typeof SiteIndexRoute
+  '/admin': typeof AdminIndexRoute
+  '/blog-posts/$slug': typeof SiteBlogPostsSlugRoute
   '/blog/$slug': typeof SiteBlogSlugRoute
-  '/products/$slug': typeof SiteProductsSlugRoute
+  '/industries/$slug': typeof SiteIndustriesSlugRoute
   '/services/$slug': typeof SiteServicesSlugRoute
   '/training/$slug': typeof SiteTrainingSlugRoute
+  '/admin/clients/$industryName': typeof AdminClientsIndustryNameRoute
   '/blog': typeof SiteBlogIndexRoute
+  '/services': typeof SiteServicesIndexRoute
   '/training': typeof SiteTrainingIndexRoute
+  '/admin/clients': typeof AdminClientsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_site': typeof SiteRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
-  '/_authenticated/activity': typeof AuthenticatedActivityRoute
-  '/_authenticated/blogs': typeof AuthenticatedBlogsRoute
-  '/_authenticated/book-calls': typeof AuthenticatedBookCallsRoute
-  '/_authenticated/cms': typeof AuthenticatedCmsRoute
-  '/_authenticated/courses': typeof AuthenticatedCoursesRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/demo-requests': typeof AuthenticatedDemoRequestsRoute
-  '/_authenticated/enterprise-requirements': typeof AuthenticatedEnterpriseRequirementsRoute
-  '/_authenticated/instructor-applications': typeof AuthenticatedInstructorApplicationsRoute
-  '/_authenticated/leads': typeof AuthenticatedLeadsRoute
-  '/_authenticated/newsletter': typeof AuthenticatedNewsletterRoute
-  '/_authenticated/products': typeof AuthenticatedProductsRoute
-  '/_authenticated/profile': typeof AuthenticatedProfileRoute
-  '/_authenticated/services': typeof AuthenticatedServicesRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_authenticated/system-health': typeof AuthenticatedSystemHealthRoute
-  '/_authenticated/users': typeof AuthenticatedUsersRoute
   '/_site/about': typeof SiteAboutRoute
+  '/_site/blog-posts': typeof SiteBlogPostsRouteWithChildren
+  '/_site/career': typeof SiteCareerRoute
   '/_site/contact': typeof SiteContactRoute
+  '/_site/faq': typeof SiteFaqRoute
+  '/_site/our-clients': typeof SiteOurClientsRoute
+  '/_site/software-support': typeof SiteSoftwareSupportRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/book-calls': typeof AdminBookCallsRoute
+  '/admin/careers': typeof AdminCareersRoute
+  '/admin/cms': typeof AdminCmsRoute
+  '/admin/consultants': typeof AdminConsultantsRoute
+  '/admin/courses': typeof AdminCoursesRoute
+  '/admin/demo-requests': typeof AdminDemoRequestsRoute
+  '/admin/digital-content': typeof AdminDigitalContentRoute
+  '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/industries': typeof AdminIndustriesRoute
+  '/admin/instructor-applications': typeof AdminInstructorApplicationsRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/profile': typeof AdminProfileRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/system-health': typeof AdminSystemHealthRoute
+  '/admin/users': typeof AdminUsersRoute
   '/_site/': typeof SiteIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/_site/blog-posts/$slug': typeof SiteBlogPostsSlugRoute
   '/_site/blog/$slug': typeof SiteBlogSlugRoute
-  '/_site/products/$slug': typeof SiteProductsSlugRoute
+  '/_site/industries/$slug': typeof SiteIndustriesSlugRoute
   '/_site/services/$slug': typeof SiteServicesSlugRoute
   '/_site/training/$slug': typeof SiteTrainingSlugRoute
+  '/admin/clients/$industryName': typeof AdminClientsIndustryNameRoute
   '/_site/blog/': typeof SiteBlogIndexRoute
-  '/_site/products/': typeof SiteProductsIndexRoute
   '/_site/services/': typeof SiteServicesIndexRoute
   '/_site/training/': typeof SiteTrainingIndexRoute
+  '/admin/clients/': typeof AdminClientsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/login'
-    | '/activity'
-    | '/blogs'
-    | '/book-calls'
-    | '/cms'
-    | '/courses'
-    | '/dashboard'
-    | '/demo-requests'
-    | '/enterprise-requirements'
-    | '/instructor-applications'
-    | '/leads'
-    | '/newsletter'
-    | '/products'
-    | '/profile'
-    | '/services'
-    | '/settings'
-    | '/system-health'
-    | '/users'
     | '/about'
+    | '/blog-posts'
+    | '/career'
     | '/contact'
+    | '/faq'
+    | '/our-clients'
+    | '/software-support'
+    | '/admin/activity'
+    | '/admin/blogs'
+    | '/admin/book-calls'
+    | '/admin/careers'
+    | '/admin/cms'
+    | '/admin/consultants'
+    | '/admin/courses'
+    | '/admin/demo-requests'
+    | '/admin/digital-content'
+    | '/admin/faqs'
+    | '/admin/industries'
+    | '/admin/instructor-applications'
+    | '/admin/leads'
+    | '/admin/newsletter'
+    | '/admin/profile'
+    | '/admin/services'
+    | '/admin/settings'
+    | '/admin/system-health'
+    | '/admin/users'
+    | '/admin/'
+    | '/blog-posts/$slug'
     | '/blog/$slug'
-    | '/products/$slug'
+    | '/industries/$slug'
     | '/services/$slug'
     | '/training/$slug'
+    | '/admin/clients/$industryName'
     | '/blog/'
-    | '/products/'
     | '/services/'
     | '/training/'
+    | '/admin/clients/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/login'
-    | '/activity'
-    | '/blogs'
-    | '/book-calls'
-    | '/cms'
-    | '/courses'
-    | '/dashboard'
-    | '/demo-requests'
-    | '/enterprise-requirements'
-    | '/instructor-applications'
-    | '/leads'
-    | '/newsletter'
-    | '/products'
-    | '/profile'
-    | '/services'
-    | '/settings'
-    | '/system-health'
-    | '/users'
     | '/about'
+    | '/blog-posts'
+    | '/career'
     | '/contact'
+    | '/faq'
+    | '/our-clients'
+    | '/software-support'
+    | '/admin/activity'
+    | '/admin/blogs'
+    | '/admin/book-calls'
+    | '/admin/careers'
+    | '/admin/cms'
+    | '/admin/consultants'
+    | '/admin/courses'
+    | '/admin/demo-requests'
+    | '/admin/digital-content'
+    | '/admin/faqs'
+    | '/admin/industries'
+    | '/admin/instructor-applications'
+    | '/admin/leads'
+    | '/admin/newsletter'
+    | '/admin/profile'
+    | '/admin/services'
+    | '/admin/settings'
+    | '/admin/system-health'
+    | '/admin/users'
+    | '/'
+    | '/admin'
+    | '/blog-posts/$slug'
     | '/blog/$slug'
-    | '/products/$slug'
+    | '/industries/$slug'
     | '/services/$slug'
     | '/training/$slug'
+    | '/admin/clients/$industryName'
     | '/blog'
+    | '/services'
     | '/training'
+    | '/admin/clients'
   id:
     | '__root__'
-    | '/_authenticated'
     | '/_site'
+    | '/admin'
     | '/login'
-    | '/_authenticated/activity'
-    | '/_authenticated/blogs'
-    | '/_authenticated/book-calls'
-    | '/_authenticated/cms'
-    | '/_authenticated/courses'
-    | '/_authenticated/dashboard'
-    | '/_authenticated/demo-requests'
-    | '/_authenticated/enterprise-requirements'
-    | '/_authenticated/instructor-applications'
-    | '/_authenticated/leads'
-    | '/_authenticated/newsletter'
-    | '/_authenticated/products'
-    | '/_authenticated/profile'
-    | '/_authenticated/services'
-    | '/_authenticated/settings'
-    | '/_authenticated/system-health'
-    | '/_authenticated/users'
     | '/_site/about'
+    | '/_site/blog-posts'
+    | '/_site/career'
     | '/_site/contact'
+    | '/_site/faq'
+    | '/_site/our-clients'
+    | '/_site/software-support'
+    | '/admin/activity'
+    | '/admin/blogs'
+    | '/admin/book-calls'
+    | '/admin/careers'
+    | '/admin/cms'
+    | '/admin/consultants'
+    | '/admin/courses'
+    | '/admin/demo-requests'
+    | '/admin/digital-content'
+    | '/admin/faqs'
+    | '/admin/industries'
+    | '/admin/instructor-applications'
+    | '/admin/leads'
+    | '/admin/newsletter'
+    | '/admin/profile'
+    | '/admin/services'
+    | '/admin/settings'
+    | '/admin/system-health'
+    | '/admin/users'
     | '/_site/'
+    | '/admin/'
+    | '/_site/blog-posts/$slug'
     | '/_site/blog/$slug'
-    | '/_site/products/$slug'
+    | '/_site/industries/$slug'
     | '/_site/services/$slug'
     | '/_site/training/$slug'
+    | '/admin/clients/$industryName'
     | '/_site/blog/'
-    | '/_site/products/'
     | '/_site/services/'
     | '/_site/training/'
+    | '/admin/clients/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   SiteRoute: typeof SiteRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_site': {
       id: '/_site'
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -417,125 +542,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/activity': {
-      id: '/_authenticated/activity'
-      path: '/activity'
-      fullPath: '/activity'
-      preLoaderRoute: typeof AuthenticatedActivityRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/blogs': {
-      id: '/_authenticated/blogs'
-      path: '/blogs'
-      fullPath: '/blogs'
-      preLoaderRoute: typeof AuthenticatedBlogsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/book-calls': {
-      id: '/_authenticated/book-calls'
-      path: '/book-calls'
-      fullPath: '/book-calls'
-      preLoaderRoute: typeof AuthenticatedBookCallsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/cms': {
-      id: '/_authenticated/cms'
-      path: '/cms'
-      fullPath: '/cms'
-      preLoaderRoute: typeof AuthenticatedCmsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/courses': {
-      id: '/_authenticated/courses'
-      path: '/courses'
-      fullPath: '/courses'
-      preLoaderRoute: typeof AuthenticatedCoursesRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/demo-requests': {
-      id: '/_authenticated/demo-requests'
-      path: '/demo-requests'
-      fullPath: '/demo-requests'
-      preLoaderRoute: typeof AuthenticatedDemoRequestsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/enterprise-requirements': {
-      id: '/_authenticated/enterprise-requirements'
-      path: '/enterprise-requirements'
-      fullPath: '/enterprise-requirements'
-      preLoaderRoute: typeof AuthenticatedEnterpriseRequirementsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/instructor-applications': {
-      id: '/_authenticated/instructor-applications'
-      path: '/instructor-applications'
-      fullPath: '/instructor-applications'
-      preLoaderRoute: typeof AuthenticatedInstructorApplicationsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/leads': {
-      id: '/_authenticated/leads'
-      path: '/leads'
-      fullPath: '/leads'
-      preLoaderRoute: typeof AuthenticatedLeadsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/newsletter': {
-      id: '/_authenticated/newsletter'
-      path: '/newsletter'
-      fullPath: '/newsletter'
-      preLoaderRoute: typeof AuthenticatedNewsletterRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/products': {
-      id: '/_authenticated/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof AuthenticatedProductsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/services': {
-      id: '/_authenticated/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof AuthenticatedServicesRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/system-health': {
-      id: '/_authenticated/system-health'
-      path: '/system-health'
-      fullPath: '/system-health'
-      preLoaderRoute: typeof AuthenticatedSystemHealthRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/users': {
-      id: '/_authenticated/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthenticatedUsersRouteImport
-      parentRoute: typeof AuthenticatedRoute
     }
     '/_site/': {
       id: '/_site/'
@@ -551,12 +557,194 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteAboutRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/blog-posts': {
+      id: '/_site/blog-posts'
+      path: '/blog-posts'
+      fullPath: '/blog-posts'
+      preLoaderRoute: typeof SiteBlogPostsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/career': {
+      id: '/_site/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof SiteCareerRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/contact': {
       id: '/_site/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof SiteContactRouteImport
       parentRoute: typeof SiteRoute
+    }
+    '/_site/faq': {
+      id: '/_site/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof SiteFaqRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/our-clients': {
+      id: '/_site/our-clients'
+      path: '/our-clients'
+      fullPath: '/our-clients'
+      preLoaderRoute: typeof SiteOurClientsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/software-support': {
+      id: '/_site/software-support'
+      path: '/software-support'
+      fullPath: '/software-support'
+      preLoaderRoute: typeof SiteSoftwareSupportRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blogs': {
+      id: '/admin/blogs'
+      path: '/blogs'
+      fullPath: '/admin/blogs'
+      preLoaderRoute: typeof AdminBlogsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/book-calls': {
+      id: '/admin/book-calls'
+      path: '/book-calls'
+      fullPath: '/admin/book-calls'
+      preLoaderRoute: typeof AdminBookCallsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/careers': {
+      id: '/admin/careers'
+      path: '/careers'
+      fullPath: '/admin/careers'
+      preLoaderRoute: typeof AdminCareersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cms': {
+      id: '/admin/cms'
+      path: '/cms'
+      fullPath: '/admin/cms'
+      preLoaderRoute: typeof AdminCmsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/consultants': {
+      id: '/admin/consultants'
+      path: '/consultants'
+      fullPath: '/admin/consultants'
+      preLoaderRoute: typeof AdminConsultantsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/courses': {
+      id: '/admin/courses'
+      path: '/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminCoursesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/demo-requests': {
+      id: '/admin/demo-requests'
+      path: '/demo-requests'
+      fullPath: '/admin/demo-requests'
+      preLoaderRoute: typeof AdminDemoRequestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/digital-content': {
+      id: '/admin/digital-content'
+      path: '/digital-content'
+      fullPath: '/admin/digital-content'
+      preLoaderRoute: typeof AdminDigitalContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/faqs': {
+      id: '/admin/faqs'
+      path: '/faqs'
+      fullPath: '/admin/faqs'
+      preLoaderRoute: typeof AdminFaqsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/industries': {
+      id: '/admin/industries'
+      path: '/industries'
+      fullPath: '/admin/industries'
+      preLoaderRoute: typeof AdminIndustriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/instructor-applications': {
+      id: '/admin/instructor-applications'
+      path: '/instructor-applications'
+      fullPath: '/admin/instructor-applications'
+      preLoaderRoute: typeof AdminInstructorApplicationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/newsletter': {
+      id: '/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AdminNewsletterRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/profile': {
+      id: '/admin/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AdminProfileRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/system-health': {
+      id: '/admin/system-health'
+      path: '/system-health'
+      fullPath: '/admin/system-health'
+      preLoaderRoute: typeof AdminSystemHealthRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_site/blog-posts/$slug': {
+      id: '/_site/blog-posts/$slug'
+      path: '/$slug'
+      fullPath: '/blog-posts/$slug'
+      preLoaderRoute: typeof SiteBlogPostsSlugRouteImport
+      parentRoute: typeof SiteBlogPostsRoute
     }
     '/_site/blog/': {
       id: '/_site/blog/'
@@ -572,18 +760,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteBlogSlugRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/_site/products/': {
-      id: '/_site/products/'
-      path: '/products'
-      fullPath: '/products/'
-      preLoaderRoute: typeof SiteProductsIndexRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/products/$slug': {
-      id: '/_site/products/$slug'
-      path: '/products/$slug'
-      fullPath: '/products/$slug'
-      preLoaderRoute: typeof SiteProductsSlugRouteImport
+    '/_site/industries/$slug': {
+      id: '/_site/industries/$slug'
+      path: '/industries/$slug'
+      fullPath: '/industries/$slug'
+      preLoaderRoute: typeof SiteIndustriesSlugRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/services/': {
@@ -614,88 +795,128 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTrainingSlugRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/admin/clients/': {
+      id: '/admin/clients/'
+      path: '/clients'
+      fullPath: '/admin/clients/'
+      preLoaderRoute: typeof AdminClientsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/clients/$industryName': {
+      id: '/admin/clients/$industryName'
+      path: '/clients/$industryName'
+      fullPath: '/admin/clients/$industryName'
+      preLoaderRoute: typeof AdminClientsIndustryNameRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
-interface AuthenticatedRouteChildren {
-  AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
-  AuthenticatedBlogsRoute: typeof AuthenticatedBlogsRoute
-  AuthenticatedBookCallsRoute: typeof AuthenticatedBookCallsRoute
-  AuthenticatedCmsRoute: typeof AuthenticatedCmsRoute
-  AuthenticatedCoursesRoute: typeof AuthenticatedCoursesRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedDemoRequestsRoute: typeof AuthenticatedDemoRequestsRoute
-  AuthenticatedEnterpriseRequirementsRoute: typeof AuthenticatedEnterpriseRequirementsRoute
-  AuthenticatedInstructorApplicationsRoute: typeof AuthenticatedInstructorApplicationsRoute
-  AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
-  AuthenticatedNewsletterRoute: typeof AuthenticatedNewsletterRoute
-  AuthenticatedProductsRoute: typeof AuthenticatedProductsRoute
-  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
-  AuthenticatedServicesRoute: typeof AuthenticatedServicesRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedSystemHealthRoute: typeof AuthenticatedSystemHealthRoute
-  AuthenticatedUsersRoute: typeof AuthenticatedUsersRoute
+interface SiteBlogPostsRouteChildren {
+  SiteBlogPostsSlugRoute: typeof SiteBlogPostsSlugRoute
 }
 
-const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedActivityRoute: AuthenticatedActivityRoute,
-  AuthenticatedBlogsRoute: AuthenticatedBlogsRoute,
-  AuthenticatedBookCallsRoute: AuthenticatedBookCallsRoute,
-  AuthenticatedCmsRoute: AuthenticatedCmsRoute,
-  AuthenticatedCoursesRoute: AuthenticatedCoursesRoute,
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedDemoRequestsRoute: AuthenticatedDemoRequestsRoute,
-  AuthenticatedEnterpriseRequirementsRoute:
-    AuthenticatedEnterpriseRequirementsRoute,
-  AuthenticatedInstructorApplicationsRoute:
-    AuthenticatedInstructorApplicationsRoute,
-  AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
-  AuthenticatedNewsletterRoute: AuthenticatedNewsletterRoute,
-  AuthenticatedProductsRoute: AuthenticatedProductsRoute,
-  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
-  AuthenticatedServicesRoute: AuthenticatedServicesRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedSystemHealthRoute: AuthenticatedSystemHealthRoute,
-  AuthenticatedUsersRoute: AuthenticatedUsersRoute,
+const SiteBlogPostsRouteChildren: SiteBlogPostsRouteChildren = {
+  SiteBlogPostsSlugRoute: SiteBlogPostsSlugRoute,
 }
 
-const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
-  AuthenticatedRouteChildren,
+const SiteBlogPostsRouteWithChildren = SiteBlogPostsRoute._addFileChildren(
+  SiteBlogPostsRouteChildren,
 )
 
 interface SiteRouteChildren {
   SiteAboutRoute: typeof SiteAboutRoute
+  SiteBlogPostsRoute: typeof SiteBlogPostsRouteWithChildren
+  SiteCareerRoute: typeof SiteCareerRoute
   SiteContactRoute: typeof SiteContactRoute
+  SiteFaqRoute: typeof SiteFaqRoute
+  SiteOurClientsRoute: typeof SiteOurClientsRoute
+  SiteSoftwareSupportRoute: typeof SiteSoftwareSupportRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteBlogSlugRoute: typeof SiteBlogSlugRoute
-  SiteProductsSlugRoute: typeof SiteProductsSlugRoute
+  SiteIndustriesSlugRoute: typeof SiteIndustriesSlugRoute
   SiteServicesSlugRoute: typeof SiteServicesSlugRoute
   SiteTrainingSlugRoute: typeof SiteTrainingSlugRoute
   SiteBlogIndexRoute: typeof SiteBlogIndexRoute
-  SiteProductsIndexRoute: typeof SiteProductsIndexRoute
   SiteServicesIndexRoute: typeof SiteServicesIndexRoute
   SiteTrainingIndexRoute: typeof SiteTrainingIndexRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
   SiteAboutRoute: SiteAboutRoute,
+  SiteBlogPostsRoute: SiteBlogPostsRouteWithChildren,
+  SiteCareerRoute: SiteCareerRoute,
   SiteContactRoute: SiteContactRoute,
+  SiteFaqRoute: SiteFaqRoute,
+  SiteOurClientsRoute: SiteOurClientsRoute,
+  SiteSoftwareSupportRoute: SiteSoftwareSupportRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteBlogSlugRoute: SiteBlogSlugRoute,
-  SiteProductsSlugRoute: SiteProductsSlugRoute,
+  SiteIndustriesSlugRoute: SiteIndustriesSlugRoute,
   SiteServicesSlugRoute: SiteServicesSlugRoute,
   SiteTrainingSlugRoute: SiteTrainingSlugRoute,
   SiteBlogIndexRoute: SiteBlogIndexRoute,
-  SiteProductsIndexRoute: SiteProductsIndexRoute,
   SiteServicesIndexRoute: SiteServicesIndexRoute,
   SiteTrainingIndexRoute: SiteTrainingIndexRoute,
 }
 
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
+interface AdminRouteChildren {
+  AdminActivityRoute: typeof AdminActivityRoute
+  AdminBlogsRoute: typeof AdminBlogsRoute
+  AdminBookCallsRoute: typeof AdminBookCallsRoute
+  AdminCareersRoute: typeof AdminCareersRoute
+  AdminCmsRoute: typeof AdminCmsRoute
+  AdminConsultantsRoute: typeof AdminConsultantsRoute
+  AdminCoursesRoute: typeof AdminCoursesRoute
+  AdminDemoRequestsRoute: typeof AdminDemoRequestsRoute
+  AdminDigitalContentRoute: typeof AdminDigitalContentRoute
+  AdminFaqsRoute: typeof AdminFaqsRoute
+  AdminIndustriesRoute: typeof AdminIndustriesRoute
+  AdminInstructorApplicationsRoute: typeof AdminInstructorApplicationsRoute
+  AdminLeadsRoute: typeof AdminLeadsRoute
+  AdminNewsletterRoute: typeof AdminNewsletterRoute
+  AdminProfileRoute: typeof AdminProfileRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminSystemHealthRoute: typeof AdminSystemHealthRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminClientsIndustryNameRoute: typeof AdminClientsIndustryNameRoute
+  AdminClientsIndexRoute: typeof AdminClientsIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivityRoute: AdminActivityRoute,
+  AdminBlogsRoute: AdminBlogsRoute,
+  AdminBookCallsRoute: AdminBookCallsRoute,
+  AdminCareersRoute: AdminCareersRoute,
+  AdminCmsRoute: AdminCmsRoute,
+  AdminConsultantsRoute: AdminConsultantsRoute,
+  AdminCoursesRoute: AdminCoursesRoute,
+  AdminDemoRequestsRoute: AdminDemoRequestsRoute,
+  AdminDigitalContentRoute: AdminDigitalContentRoute,
+  AdminFaqsRoute: AdminFaqsRoute,
+  AdminIndustriesRoute: AdminIndustriesRoute,
+  AdminInstructorApplicationsRoute: AdminInstructorApplicationsRoute,
+  AdminLeadsRoute: AdminLeadsRoute,
+  AdminNewsletterRoute: AdminNewsletterRoute,
+  AdminProfileRoute: AdminProfileRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminSystemHealthRoute: AdminSystemHealthRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminClientsIndustryNameRoute: AdminClientsIndustryNameRoute,
+  AdminClientsIndexRoute: AdminClientsIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   SiteRoute: SiteRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport

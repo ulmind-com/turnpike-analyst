@@ -116,6 +116,11 @@ export function DataGrid<T>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, query, sort, columns]);
 
+  const paginatedVisible = useMemo(() => {
+    const start = page * pageSize;
+    return visible.slice(start, start + pageSize);
+  }, [visible, page, pageSize]);
+
   const selectedRows = visible.filter((row) => selected.has(getRowId(row)));
   const allSelected = visible.length > 0 && selectedRows.length === visible.length;
   const clearSelection = () => setSelected(new Set());
@@ -243,7 +248,7 @@ export function DataGrid<T>({
               </tr>
             </thead>
             <tbody>
-              {visible.map((row, index) => {
+              {paginatedVisible.map((row, index) => {
                 const id = getRowId(row);
                 return (
                   <motion.tr
@@ -321,7 +326,7 @@ export function DataGrid<T>({
           <Button
             variant="outline"
             size="sm"
-            disabled={(rows?.length ?? 0) < pageSize}
+            disabled={(page + 1) * pageSize >= visible.length}
             onClick={() => onPageChange(page + 1)}
           >
             Next <ChevronRight className="size-4" />

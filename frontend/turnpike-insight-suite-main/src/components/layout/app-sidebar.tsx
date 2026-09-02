@@ -120,11 +120,10 @@ export function AppSidebar({
       </ScrollArea>
 
       {!collapsed && (
-        <div className="m-3 rounded-2xl border border-border/50 bg-primary/5 p-3">
-          <p className="text-xs font-medium">Live backend</p>
-          <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-            Every panel reads directly from the Turnpike Analyst API.
-          </p>
+        <div className="m-3 flex flex-col gap-3">
+          <Button variant="outline" className="w-full text-xs text-muted-foreground hover:text-foreground" asChild>
+            <Link to="/">Back to Website &rarr;</Link>
+          </Button>
         </div>
       )}
     </aside>

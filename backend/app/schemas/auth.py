@@ -15,5 +15,8 @@ class TokenPayload(BaseSchema):
 class RefreshTokenRequest(BaseSchema):
     refresh_token: str
 
+class FirebaseLoginRequest(BaseSchema):
+    firebase_token: str
+
 class LoginResponse(Token):
     user: UserResponse
